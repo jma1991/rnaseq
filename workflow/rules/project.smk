@@ -6,27 +6,23 @@
 import pandas as pd
 
 class Project:
-    
-    version = '0.1'
 
     def __init__(self, config):
         self.config = config
         self.samples = pd.read_csv(config["samples"])
-        self.reads = pd.read_csv(config["reads"])
-
-    ## fastq
+        self.units = pd.read_csv(config["units"])
 
     def fastq(self):
         ext = [
-            "results/fastq/{SM}/{ID}{FQ}.fastq.gz"
+            "results/fastq/{sample}/{unit}{read}.fastq.gz"
         ]
         out = []
-        for row in self.reads.itertuples():
-            if pd.isna(row.R2):
-                exp = expand(ext, SM = row.SM, ID = row.ID, FQ = "")
+        for row in self.units.itertuples():
+            if pd.isna(row.read2):
+                exp = expand(ext, sample = row.sample, unit = row.unit, read = "")
                 out.extend(exp)
             else:
-                exp = expand(ext, SM = row.SM, ID = row.ID, FQ = ["_1", "_2"])
+                exp = expand(ext, sample = row.sample, unit = row.unit, read = ["_1", "_2"])
                 out.extend(exp)
         return out
 
@@ -39,16 +35,16 @@ class Project:
 
     def fastqc(self):
         ext = [
-            "results/fastqc/{SM}/{ID}{FQ}_fastqc.html",
-            "results/fastqc/{SM}/{ID}{FQ}_fastqc.zip"
+            "results/fastqc/{sample}/{unit}{read}_fastqc.html",
+            "results/fastqc/{sample}/{unit}{read}_fastqc.zip"
         ]
         out = []
-        for row in self.reads.itertuples():
-            if pd.isna(row.R2):
-                exp = expand(ext, SM = row.SM, ID = row.ID, FQ = "")
+        for row in self.units.itertuples():
+            if pd.isna(row.read2):
+                exp = expand(ext, sample = row.sample, unit = row.unit, read = "")
                 out.extend(exp)
             else:
-                exp = expand(ext, SM = row.SM, ID = row.ID, FQ = ["_1", "_2"])
+                exp = expand(ext, sample = row.sample, unit = row.unit, read = ["_1", "_2"])
                 out.extend(exp)
         return out
         
@@ -61,20 +57,20 @@ class Project:
 
     def cutadapt_single(self):
         ext = [
-            "results/cutadapt/{SM}/{ID}.fastq.gz"
+            "results/cutadapt/{sample}/{unit}.fastq.gz"
         ]
-        ind = self.reads["R2"].isnull()
-        dat = self.reads[ind]
-        return expand(ext, zip, SM = dat["SM"], ID = dat["ID"])
+        ind = self.units["read2"].isnull()
+        dat = self.units[ind]
+        return expand(ext, zip, sample = dat["sample"], unit = dat["unit"])
 
     def cutadapt_paired(self):
         ext = [
-            "results/cutadapt/{SM}/{ID}_1.fastq.gz",
-            "results/cutadapt/{SM}/{ID}_2.fastq.gz"
+            "results/cutadapt/{sample}/{unit}_1.fastq.gz",
+            "results/cutadapt/{sample}/{unit}_2.fastq.gz"
         ]
-        ind = self.reads["R2"].notnull()
-        dat = self.reads[ind]
-        return expand(ext, zip, SM = dat["SM"], ID = dat["ID"])
+        ind = self.units["read2"].notnull()
+        dat = self.units[ind]
+        return expand(ext, zip, sample = dat["sample"], unit = dat["unit"])
 
     def cutadapt_output(self):
         return [
@@ -85,7 +81,7 @@ class Project:
     ## picard
 
     def picard_collectrnaseqmetrics(self):
-        return expand("results/picard/collectrnaseqmetrics/{SM}.txt", SM = self.samples)
+        return expand("results/picard/collectrnaseqmetrics/{sample}.txt", sample = self.samples)
 
     def picard_output(self):
         return self.picard_collectrnaseqmetrics()
@@ -93,25 +89,25 @@ class Project:
     ## rseqc
 
     def rseqc_bam_stat(self):
-        return expand("results/rseqc/bam_stat/{SM}", zip, SM = self.samples["SM"])
+        return expand("results/rseqc/bam_stat/{sample}", zip, sample = self.samples["sample"])
     
     def rseqc_inner_distance(self):
-        return expand("results/rseqc/inner_distance/{SM}/{LB}", zip, SM = self.samples["SM"], LB = self.samples["LB"])
+        return expand("results/rseqc/inner_distance/{sample}/{LB}", zip, sample = self.samples["sample"], LB = self.samples["LB"])
     
     def rseqc_infer_experiment(self):
-        return expand("results/rseqc/infer_experiment/{SM}/{LB}", zip, SM = self.samples["SM"], LB = self.samples["LB"])
+        return expand("results/rseqc/infer_experiment/{sample}/{LB}", zip, sample = self.samples["sample"], LB = self.samples["LB"])
 
     def rseqc_junction_annotation(self):
-        return expand("results/rseqc/junction_annotation/{SM}/{LB}", zip, SM = self.samples["SM"], LB = self.samples["LB"])
+        return expand("results/rseqc/junction_annotation/{sample}/{LB}", zip, sample = self.samples["sample"], LB = self.samples["LB"])
     
     def rseqc_junction_saturation(self):
-        return expand("results/rseqc/junction_saturation/{SM}/{LB}", zip, SM = self.samples["SM"], LB = self.samples["LB"])
+        return expand("results/rseqc/junction_saturation/{sample}/{LB}", zip, sample = self.samples["sample"], LB = self.samples["LB"])
     
     def rseqc_read_distribution(self):
-        return expand("results/rseqc/read_distribution/{SM}/{LB}", zip, SM = self.samples["SM"], LB = self.samples["LB"])
+        return expand("results/rseqc/read_distribution/{sample}/{LB}", zip, sample = self.samples["sample"], LB = self.samples["LB"])
     
     def rseqc_read_duplication(self):
-        return expand("results/rseqc/read_duplication/{SM}/{LB}", zip, SM = self.samples["SM"], LB = self.samples["LB"])
+        return expand("results/rseqc/read_duplication/{sample}/{LB}", zip, sample = self.samples["sample"], LB = self.samples["LB"])
 
     def rseqc_output(self):
         return [
@@ -127,7 +123,7 @@ class Project:
     ## qualimap
 
     def qualimap_rnaseq(self):
-        return expand("results/qualimap/rnaseq/{SM}/{LB}", SM = self.samples)
+        return expand("results/qualimap/rnaseq/{sample}/{LB}", sample = self.samples)
     
     def qualimap_output(self):
         return [
@@ -137,7 +133,7 @@ class Project:
     ## sambamba
 
     def sambamba_markdup(self):
-        return expand("results/sambamba/markdup/{SM}/{LB}/Aligned.sortedByCoord.out.markdup.bam", SM = self.samples)
+        return expand("results/sambamba/markdup/{sample}/{LB}/Aligned.sortedByCoord.out.markdup.bam", sample = self.samples)
     
     def sambamba_output(self):
         return [
@@ -176,9 +172,6 @@ class Project:
     def gffread_transcripts(self):
         return expand("results/gffread/{genome}/{genome}.transcripts.fa", genome = self.config["genome"])
 
-    def gffread_annotation(self):
-        return expand("results/gffread/{genome}/{genome}.annotation.tsv", genome = self.config["genome"])
-
     def gffread_tx2gene(self):
         return expand("results/gffread/{genome}/{genome}.tx2gene.tsv", genome = self.config["genome"])
 
@@ -188,7 +181,8 @@ class Project:
     def gffread_output(self):
         return [
             self.gffread_transcripts(),
-            self.gffread_annotation()
+            self.gffread_tx2gene(),
+            self.gffread_id2name()
         ]
 
     ## kallisto
@@ -201,11 +195,11 @@ class Project:
 
     def kallisto_quant(self):
         ext = [
-            "results/kallisto/quant/{SM}/abundance.h5",
-            "results/kallisto/quant/{SM}/abundance.tsv",
-            "results/kallisto/quant/{SM}/run_info.json"
+            "results/kallisto/quant/{sample}/abundance.h5",
+            "results/kallisto/quant/{sample}/abundance.tsv",
+            "results/kallisto/quant/{sample}/run_info.json"
         ]
-        return expand(ext, zip, SM = self.samples["SM"])
+        return expand(ext, zip, sample = self.samples["sample"])
 
     def kallisto_output(self):
         return [
@@ -223,13 +217,13 @@ class Project:
 
     def star_align(self):
         ext = [
-            "results/star/align/{SM}/{LB}/Aligned.sortedByCoord.out.bam",
-            "results/star/align/{SM}/{LB}/Log.final.out",
-            "results/star/align/{SM}/{LB}/Log.out",
-            "results/star/align/{SM}/{LB}/Log.progress.out",
-            "results/star/align/{SM}/{LB}/SJ.out.tab"
+            "results/star/align/{sample}/{LB}/Aligned.sortedByCoord.out.bam",
+            "results/star/align/{sample}/{LB}/Log.final.out",
+            "results/star/align/{sample}/{LB}/Log.out",
+            "results/star/align/{sample}/{LB}/Log.progress.out",
+            "results/star/align/{sample}/{LB}/SJ.out.tab"
         ]
-        return expand(ext, zip, SM = self.samples["SM"], LB = self.samples["LB"])
+        return expand(ext, zip, sample = self.samples["sample"], LB = self.samples["LB"])
 
     def star_output(self):
         return [
@@ -330,7 +324,7 @@ class Project:
     ## deeptools
 
     def deeptools_coverage(self):
-        return expand("results/deeptools/coverage/{SM}.bigWig", SM = self.samples)
+        return expand("results/deeptools/coverage/{sample}.bigWig", sample = self.samples)
     
     def deeptools_profile(self):
         return expand("results/deeptools/profile/genes.pdf")
@@ -344,7 +338,7 @@ class Project:
     ## preseq
 
     def preseq_c_curve(self):
-        return expand("results/preseq/c_curve/{SM}.c_curve.txt", SM = self.samples)
+        return expand("results/preseq/c_curve/{sample}.c_curve.txt", sample = self.samples)
     
     def preseq_output(self):
         return self.preseq_c_curve()

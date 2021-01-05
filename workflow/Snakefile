@@ -3,35 +3,26 @@
 # Email: jashmore@ed.ac.uk
 # License: MIT
 
-pepfile: "config/project_config.yaml"
+configfile: "config/config.yaml"
 
-pepschema: "schemas/pep.schema.yaml"
-
-include: "rules/common.smk"
-include: "rules/consensus.smk"
-include: "rules/cutadapt.smk"
-include: "rules/deeptools.smk"
-include: "rules/deseq2.smk"
-include: "rules/dupradar.smk"
-include: "rules/edger.smk"
+include: "rules/project.smk"
+include: "rules/fastq.smk"
 include: "rules/fastqc.smk"
+include: "rules/cutadapt.smk"
 include: "rules/genomepy.smk"
-include: "rules/gffcompare.smk"
 include: "rules/gffread.smk"
-include: "rules/handlers.smk"
-include: "rules/hisat2.smk"
-include: "rules/intervene.smk"
 include: "rules/kallisto.smk"
-include: "rules/limma.smk"
-include: "rules/multiqc.smk"
-include: "rules/plots.smk"
-include: "rules/preseq.smk"
-include: "rules/qualimap.smk"
-include: "rules/rseqc.smk"
-include: "rules/rsubread.smk"
-include: "rules/sambamba.smk"
-include: "rules/star.smk"
-include: "rules/stringtie.smk"
-include: "rules/tximport.smk"
 
-output = Output(pep.sample_table, pep.subsample_table)
+project = Project(config)
+
+wildcard_constraints:
+    sample = "|".join(project.samples["sample"]),
+    unit = "|".join(project.units["unit"])
+
+rule all:
+    input:
+        project.fastq_output(),
+        project.fastqc_output(),
+        project.cutadapt_output(),
+        project.genomepy_output(),
+        project.gffread_output()

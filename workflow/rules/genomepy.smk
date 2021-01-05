@@ -27,12 +27,7 @@ rule genomepy_gunzip:
         "results/genomepy/{genome}/{genome}.annotation.{ext}.gz"
     output:
         "results/genomepy/{genome}/{genome}.annotation.{ext}"
-    log:
-        out = "results/genomepy/{genome}/{genome}.annotation.{ext}.out",
-        err = "results/genomepy/{genome}/{genome}.annotation.{ext}.err"
     message:
         "[genomepy] Extract reference annotation: {input}"
-    conda:
-        "../envs/genomepy.yaml"
     shell:
-        "gunzip {input} 1> {log.out} 2> {log.err}"
+        "gunzip -c {input} > {output}"

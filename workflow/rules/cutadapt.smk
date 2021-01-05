@@ -5,7 +5,7 @@
 
 rule cutadapt_single:
     input:
-        unpack(get_fastqs)
+        fq1 = "results/fastq/{sample}/{unit}.fastq.gz"
     output:
         fq1 = "results/cutadapt/{sample}/{unit}.fastq.gz"
     log:
@@ -22,7 +22,8 @@ rule cutadapt_single:
 
 rule cutadapt_paired:
     input:
-        unpack(get_fastqs)
+        fq1 = "results/fastq/{sample}/{unit}_1.fastq.gz",
+        fq2 = "results/fastq/{sample}/{unit}_2.fastq.gz"
     output:
         fq1 = "results/cutadapt/{sample}/{unit}_1.fastq.gz",
         fq2 = "results/cutadapt/{sample}/{unit}_2.fastq.gz"
