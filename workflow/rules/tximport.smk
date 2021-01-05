@@ -5,7 +5,7 @@
 
 rule tximport:
     input:
-        hdf = expand("results/kallisto/quant/{sample_name}/abundance.h5", sample_name = pep.sample_table.index),
+        hdf = expand("results/kallisto/quant/{sample}/abundance.h5", sample = pep.sample_table.index),
         tsv = expand("results/gffread/{genome}/{genome}.tx2gene.tsv", genome = pep.sample_table["genome"].unique())
     output:
         rds = "results/tximport/counts.rds"

@@ -14,7 +14,7 @@ class Project:
         self.samples = pd.read_csv(config["samples"])
         self.reads = pd.read_csv(config["reads"])
 
-    # Experimental design
+    ## fastq
 
     def fastq(self):
         ext = [
@@ -35,11 +35,7 @@ class Project:
             self.fastq()
         ]
 
-    # Quality control
-
-    ## Raw reads
-
-    ### FastQC
+    ## fastqc
 
     def fastqc(self):
         ext = [
@@ -61,7 +57,7 @@ class Project:
             self.fastqc()
         ]
 
-    ### Cutadapt 
+    ## cutadapt
 
     def cutadapt_single(self):
         ext = [
@@ -86,9 +82,7 @@ class Project:
             self.cutadapt_paired()
         ]
     
-    ## Read alignment
-
-    ### Picard
+    ## picard
 
     def picard_collectrnaseqmetrics(self):
         return expand("results/picard/collectrnaseqmetrics/{SM}.txt", SM = self.samples)
@@ -96,7 +90,7 @@ class Project:
     def picard_output(self):
         return self.picard_collectrnaseqmetrics()
     
-    ### RSeQC
+    ## rseqc
 
     def rseqc_bam_stat(self):
         return expand("results/rseqc/bam_stat/{SM}", zip, SM = self.samples["SM"])
@@ -130,7 +124,7 @@ class Project:
             self.rseqc_read_duplication()
         ]
 
-    ### Qualimap
+    ## qualimap
 
     def qualimap_rnaseq(self):
         return expand("results/qualimap/rnaseq/{SM}/{LB}", SM = self.samples)
@@ -140,7 +134,7 @@ class Project:
             self.qualimap_rnaseq()
         ]
 
-    ### Sambamba
+    ## sambamba
 
     def sambamba_markdup(self):
         return expand("results/sambamba/markdup/{SM}/{LB}/Aligned.sortedByCoord.out.markdup.bam", SM = self.samples)
@@ -150,12 +144,7 @@ class Project:
             self.sambamba_markdup()
         ]
 
-    ## Quantification
-
-    ## Reproducibility
-
-
-    # genomepy
+    ## genomepy
     
     def genomepy_install(self):
         ext = [
@@ -182,7 +171,7 @@ class Project:
             self.genomepy_gunzip()
         ]
 
-    # gffread
+    ## gffread
 
     def gffread_transcripts(self):
         return expand("results/gffread/{genome}/{genome}.transcripts.fa", genome = self.config["genome"])
@@ -202,11 +191,7 @@ class Project:
             self.gffread_annotation()
         ]
 
-    # Transcript identification
-
-    ## Alignment
-
-    ### Kallisto
+    ## kallisto
 
     def kallisto_index(self):
         ext = [
@@ -228,8 +213,8 @@ class Project:
             self.kallisto_quant()
         ]
 
-    ### STAR
-    
+    ## star
+
     def star_index(self):
         itr = [
             "results/star/index/{genome}"
@@ -252,9 +237,7 @@ class Project:
             self.star_align()
         ]
 
-    # Transcript quantification
-
-    ### Tximport
+    ## bioconductor-tximport
 
     def tximport_object(self):
         return "results/tximport/object.rds"
@@ -264,7 +247,7 @@ class Project:
             self.tximport_object()
         ]
 
-    ### Rsubread
+    ## bioconductor-rsubread
 
     def rsubread_object(self):
         return "results/rsubread/object.rds"
@@ -273,10 +256,8 @@ class Project:
         return [
             self.rsubread_object()
         ]
-    
-    # Differential gene expression analysis
 
-    ### DESeq2
+    ## bioconductor-deseq2
 
     def deseq2_object(self):
         return "results/deseq2/object.rds"
@@ -302,7 +283,7 @@ class Project:
             self.deseq2_results()
         ]
 
-    ### edgeR
+    ## bioconductor-edger
 
     def edger_object(self):
         return "results/edger/object.rds"
@@ -324,7 +305,7 @@ class Project:
             self.edger_logcounts()
         ]
 
-    ### Limma
+    ## bioconductor-limma
 
     def limma_object(self):
         return "results/limma/object.rds"
@@ -346,9 +327,7 @@ class Project:
             self.limma_logcounts()
         ]
 
-    # Visualization
-
-    ## deepTools
+    ## deeptools
 
     def deeptools_coverage(self):
         return expand("results/deeptools/coverage/{SM}.bigWig", SM = self.samples)
@@ -362,7 +341,7 @@ class Project:
             self.deeptools_profile()
         ]
     
-    ## Preseq
+    ## preseq
 
     def preseq_c_curve(self):
         return expand("results/preseq/c_curve/{SM}.c_curve.txt", SM = self.samples)
@@ -370,8 +349,7 @@ class Project:
     def preseq_output(self):
         return self.preseq_c_curve()
 
-
-    ### MultiQC
+    ## multiqc
 
     def multiqc(self):
         return [
@@ -382,26 +360,4 @@ class Project:
     def multiqc_output(self):
         return [
             self.multiqc()
-        ]
-
-    ##
-
-    def results_output(self):
-        return [
-            self.fastqc_output(),
-            self.cutadapt_output(),
-            self.picard_output(),
-            self.rseqc_output(),
-            self.qualimap_output(),
-            self.genomepy_output(),
-            self.gffread_output(),
-            self.kallisto_output(),
-            self.star_output(),
-            self.sambamba_output(),
-            self.deseq2_output(),
-            self.edger_output(),
-            self.limma_output(),
-            self.deeptools_output(),
-            self.preseq_output(),
-            self.multiqc_output()
         ]

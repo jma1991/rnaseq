@@ -5,7 +5,7 @@
 
 rule rsubread:
     input:
-        bam = expand("results/star/align/{sample_name}/Aligned.sortedByCoord.out.bam", sample_name = pep.sample_table.index),
+        bam = expand("results/star/align/{sample}/Aligned.sortedByCoord.out.bam", sample = pep.sample_table.index),
         gtf = expand("results/genomepy/{genome}/{genome}.annotation.gtf", genome = pep.sample_table["genome"].unique())
     output:
         rds = "results/rsubread/counts.rds"

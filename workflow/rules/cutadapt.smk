@@ -7,10 +7,10 @@ rule cutadapt_single:
     input:
         unpack(get_fastqs)
     output:
-        fq1 = "results/cutadapt/{sample_name}/{subsample_name}.fastq.gz"
+        fq1 = "results/cutadapt/{sample}/{unit}.fastq.gz"
     log:
-        out = "results/cutadapt/{sample_name}/{subsample_name}_cutadapt.out",
-        err = "results/cutadapt/{sample_name}/{subsample_name}_cutadapt.err"
+        out = "results/cutadapt/{sample}/{unit}_cutadapt.out",
+        err = "results/cutadapt/{sample}/{unit}_cutadapt.err"
     message:
         "[cutadapt] Remove adapter sequences from single-end library: {input.fq1}"
     threads:
@@ -24,11 +24,11 @@ rule cutadapt_paired:
     input:
         unpack(get_fastqs)
     output:
-        fq1 = "results/cutadapt/{sample_name}/{subsample_name}_1.fastq.gz",
-        fq2 = "results/cutadapt/{sample_name}/{subsample_name}_2.fastq.gz"
+        fq1 = "results/cutadapt/{sample}/{unit}_1.fastq.gz",
+        fq2 = "results/cutadapt/{sample}/{unit}_2.fastq.gz"
     log:
-        out = "results/cutadapt/{sample_name}/{subsample_name}_cutadapt.out",
-        err = "results/cutadapt/{sample_name}/{subsample_name}_cutadapt.err"
+        out = "results/cutadapt/{sample}/{unit}_cutadapt.out",
+        err = "results/cutadapt/{sample}/{unit}_cutadapt.err"
     message:
         "[cutadapt] Remove adapter sequences from paired-end library: {input.fq1} & {input.fq2}"
     threads:

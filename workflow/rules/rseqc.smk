@@ -5,12 +5,12 @@
 
 rule rseqc_read_distribution:
     input:
-        bam = "results/sambamba/{sample_name}/Aligned.sortedByCoord.out.markdup.bam",
+        bam = "results/sambamba/{sample}/Aligned.sortedByCoord.out.markdup.bam",
         bed = expand("results/genomepy/{genome}/{genome}.annotation.bed", genome = pep.sample_table["genome"].unique())
     output:
-        txt = "results/rseqc/{sample_name}.read_distribution.txt"
+        txt = "results/rseqc/{sample}.read_distribution.txt"
     log:
-        err = "results/rseqc/{sample_name}.read_distribution.log"
+        err = "results/rseqc/{sample}.read_distribution.log"
     message:
         "[RSeQC] Calculate read distribution over genome feature"
     conda:
@@ -20,14 +20,14 @@ rule rseqc_read_distribution:
 
 rule rseqc_gene_body_coverage:
     input:
-        bam = "results/sambamba/{sample_name}/Aligned.sortedByCoord.out.markdup.bam",
+        bam = "results/sambamba/{sample}/Aligned.sortedByCoord.out.markdup.bam",
         bed = expand("results/genomepy/{genome}/{genome}.annotation.bed", genome = pep.sample_table["genome"].unique())
     output:
-        ext = multiext("results/rseqc/{sample_name}", ".geneBodyCoverage.curves.pdf", ".geneBodyCoverage.r", ".geneBodyCoverage.txt")
+        ext = multiext("results/rseqc/{sample}", ".geneBodyCoverage.curves.pdf", ".geneBodyCoverage.r", ".geneBodyCoverage.txt")
     log:
-        err = "results/rseqc/{sample_name}.geneBodyCoverage.log"
+        err = "results/rseqc/{sample}.geneBodyCoverage.log"
     params:
-        out = "results/rseqc/{sample_name}"
+        out = "results/rseqc/{sample}"
     message:
         "[RSeQC] Calculate read coverage over gene body"
     conda:

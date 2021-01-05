@@ -21,13 +21,13 @@ rule star_align:
         idx = star_align_index,
         fqz = star_align_fastq
     output:
-        bam = "results/star/align/{sample_name}/Aligned.sortedByCoord.out.bam"
+        bam = "results/star/align/{sample}/Aligned.sortedByCoord.out.bam"
     params:
         fqz = star_align_reads,
-        out = "results/star/align/{sample_name}/"
+        out = "results/star/align/{sample}/"
     message:
-        "[STAR] Align single-end library to genome: {wildcards.sample_name}"
+        "[STAR] Align single-end library to genome: {wildcards.sample}"
     threads:
         16
     shell:
-        "STAR --runMode alignReads --runThreadN {threads} --genomeDir {input.idx} --readFilesIn {params.fqz} --readFilesCommand gunzip -c --outFileNamePrefix {params.out} --outSAMtype BAM SortedByCoordinate --outTmpDir /tmp/TMPDIR/{wildcards.sample_name}"
+        "STAR --runMode alignReads --runThreadN {threads} --genomeDir {input.idx} --readFilesIn {params.fqz} --readFilesCommand gunzip -c --outFileNamePrefix {params.out} --outSAMtype BAM SortedByCoordinate --outTmpDir /tmp/TMPDIR/{wildcards.sample}"

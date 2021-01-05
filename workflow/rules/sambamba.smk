@@ -5,13 +5,13 @@
 
 rule sambamba_markdup:
     input:
-        bam = "results/star/align/{sample_name}/Aligned.sortedByCoord.out.bam"
+        bam = "results/star/align/{sample}/Aligned.sortedByCoord.out.bam"
     output:
-        bam = "results/sambamba/{sample_name}/Aligned.sortedByCoord.out.markdup.bam",
-        bai = "results/sambamba/{sample_name}/Aligned.sortedByCoord.out.markdup.bam.bai"
+        bam = "results/sambamba/{sample}/Aligned.sortedByCoord.out.markdup.bam",
+        bai = "results/sambamba/{sample}/Aligned.sortedByCoord.out.markdup.bam.bai"
     log:
-        out = "results/sambamba/{sample_name}/Aligned.sortedByCoord.out.markdup.out",
-        err = "results/sambamba/{sample_name}/Aligned.sortedByCoord.out.markdup.err"
+        out = "results/sambamba/{sample}/Aligned.sortedByCoord.out.markdup.out",
+        err = "results/sambamba/{sample}/Aligned.sortedByCoord.out.markdup.err"
     message:
         "[sambamba] Mark duplicate reads in BAM file: {input}"
     threads:
