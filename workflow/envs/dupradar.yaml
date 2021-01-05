@@ -1,4 +1,4 @@
-name: dupradar
+name: bioconductor-dupradar
 channels:
   - conda-forge
   - bioconda

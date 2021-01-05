@@ -1,4 +1,4 @@
-name: edger
+name: bioconductor-edger
 channels:
   - conda-forge
   - bioconda

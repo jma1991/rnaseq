@@ -1,4 +1,4 @@
-SM,ID,R1,R2
+sample,unit,fq1,fq2
 D3_1,D3_1-1,/home/jashmore/work/github/rnaseq/data/reads/D3_1.fastq.gz,
 D3_2,D3_2-1,/home/jashmore/work/github/rnaseq/data/reads/D3_2.fastq.gz,
 D3_3,D3_3-1,/home/jashmore/work/github/rnaseq/data/reads/D3_3.fastq.gz,
