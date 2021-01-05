@@ -1,5 +1,0 @@
-OSError in line 6 of /home/jashmore/work/kaji/rnaseq/workflow/Snakefile:
-Project config file path does not exist: /home/jashmore/work/kaji/rnaseq/workflow/config/project_config.yaml
-  File "/home/jashmore/work/kaji/rnaseq/workflow/Snakefile", line 6, in <module>
-  File "/home/jashmore/miniconda3/envs/snakemake/lib/python3.7/site-packages/peppy/project.py", line 53, in __init__
-  File "/home/jashmore/miniconda3/envs/snakemake/lib/python3.7/site-packages/peppy/project.py", line 122, in parse_config_file
