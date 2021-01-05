@@ -1,0 +1,6 @@
+channels:
+  - conda-forge
+  - biconda
+  - defaults
+dependencies:
+  - samtools

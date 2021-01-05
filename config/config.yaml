@@ -1,0 +1,3 @@
+samples: "config/samples.csv"
+reads: "config/reads.csv"
+genome: "GRCm38.p6"

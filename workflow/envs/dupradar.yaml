@@ -1,0 +1,7 @@
+name: dupradar
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconductor-dupradar

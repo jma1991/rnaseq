@@ -1,0 +1,11 @@
+name: plots
+dependencies:
+  - conda-forge
+  - bioconda
+  - defaults
+channels:
+  - r-ggplot2
+  - r-ggrepel
+  - r-magick
+  - r-pheatmap
+  - r-rcolorbrewer

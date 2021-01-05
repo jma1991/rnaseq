@@ -1,0 +1,3 @@
+WorkflowError in line 12 of /home/jashmore/work/kaji/rnaseq/workflow/Snakefile:
+Config file config/config.yaml not found.
+  File "/home/jashmore/work/kaji/rnaseq/workflow/Snakefile", line 12, in <module>

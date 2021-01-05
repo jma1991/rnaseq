@@ -1,0 +1,20 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+description: row of the runs.tsv, representing a sequencing run, i.e. single-end or paired-end data
+type: object
+properties:
+  sample:
+    type: string
+    description: sample name/id the run has been sequenced from
+  run:
+    type: string
+    description: run id
+  fq1:
+    type: string
+    description: path to FASTQ file
+  fq2:
+    type: string
+    description: path to second FASTQ file (leave empty in case of single-end)
+required:
+  - sample
+  - run
+  - fq1

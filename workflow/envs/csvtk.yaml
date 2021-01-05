@@ -1,0 +1,7 @@
+name: csvtk
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - csvtk
