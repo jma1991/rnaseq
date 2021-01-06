@@ -6,14 +6,19 @@
 configfile: "config/config.yaml"
 
 include: "rules/project.smk"
+
+project = Project(config)
+
 include: "rules/fastq.smk"
 include: "rules/fastqc.smk"
 include: "rules/cutadapt.smk"
 include: "rules/genomepy.smk"
 include: "rules/gffread.smk"
+include: "rules/star.smk"
 include: "rules/kallisto.smk"
-
-project = Project(config)
+include: "rules/tximport.smk"
+include: "rules/deseq2.smk"
+include: "rules/edger.smk"
 
 wildcard_constraints:
     sample = "|".join(project.samples["sample"]),
@@ -25,4 +30,8 @@ rule all:
         project.fastqc_output(),
         project.cutadapt_output(),
         project.genomepy_output(),
-        project.gffread_output()
+        project.gffread_output(),
+        project.tximport_output(),
+        project.deseq2_output(),
+        project.edger_output(),
+        project.star_output()

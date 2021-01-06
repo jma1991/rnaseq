@@ -14,16 +14,22 @@ DGEList.rsubread <- function(object, samples, group) {
 DGEList.tximport <- function(object, samples, group) {
 
     cts <- object$counts
-    
-    len <- object$length
-    
-    len <- len / exp(rowMeans(log(len)))
-    
-    lib <- log(edgeR::calcNormFactors(cts/len)) + log(colSums(cts/len))
-    
-    dge <- edgeR::DGEList(cts, samples = samples, group = group)
-    
-    edgeR::scaleOffset(dge, t(t(log(len)) + lib))
+
+    normMat <- object$length
+
+    normMat <- normMat/exp(rowMeans(log(normMat)))
+
+    normCts <- cts/normMat
+
+    eff.lib <- edgeR::calcNormFactors(normCts) * colSums(normCts)
+
+    normMat <- sweep(normMat, 2, eff.lib, "*")
+
+    normMat <- log(normMat)
+
+    y <- edgeR::DGEList(cts, samples = samples, group = group)
+
+    edgeR::scaleOffset(y, normMat)
 
 }
 
@@ -45,13 +51,13 @@ main <- function(input, output, log) {
 
     obj <- readRDS(input$rds)
 
-    dat <- read.csv("config/sample_table.csv", row.names = "sample_name", stringsAsFactors = FALSE)
+    dat <- read.csv("config/samples.csv", row.names = "sample")
 
     dge <- DGEList(object = obj, samples = dat, group = dat$condition)
 
-    idx <- filterByExpr(dge, group = dat$condition)
+    ind <- filterByExpr(dge, group = dat$condition)
 
-    dge <- dge[idx, , keep.lib.sizes = FALSE]
+    dge <- dge[ind, , keep.lib.sizes = FALSE]
 
     dge <- calcNormFactors(dge)
 

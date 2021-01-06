@@ -3,14 +3,14 @@
 # Email: jashmore@ed.ac.uk
 # License: MIT
 
-rule edger_init:
+rule edger_object:
     input:
-        rds = "results/{result}/counts.rds"
+        rds = "results/{result}/object.rds"
     output:
-        rds = "results/edger/dge.{result}.rds"
+        rds = "results/edger/object.{result}.rds"
     log:
-        out = "results/edger/dge.{result}.out",
-        err = "results/edger/dge.{result}.err"
+        out = "results/edger/object.{result}.out",
+        err = "results/edger/object.{result}.err"
     message:
         "[edgeR] Construct a DGEList object from {wildcards.result} output: {input.rds}"
     conda:
@@ -20,7 +20,7 @@ rule edger_init:
 
 rule edger_counts:
     input:
-        rds = "results/edger/dge.{result}.rds"
+        rds = "results/edger/object.{result}.rds"
     output:
         csv = "results/edger/counts.{result}.csv"
     log:
@@ -35,7 +35,7 @@ rule edger_counts:
 
 rule edger_normcounts:
     input:
-        rds = "results/edger/dge.{result}.rds"
+        rds = "results/edger/object.{result}.rds"
     output:
         csv = "results/edger/normcounts.{result}.csv"
     log:
@@ -50,7 +50,7 @@ rule edger_normcounts:
 
 rule edger_logcounts:
     input:
-        rds = "results/edger/dge.{result}.rds"
+        rds = "results/edger/object.{result}.rds"
     output:
         csv = "results/edger/logcounts.{result}.csv"
     log:
@@ -65,8 +65,8 @@ rule edger_logcounts:
 
 rule edger_results:
     input:
-        rds = "results/edger/dge.{result}.rds",
-        tsv = expand("results/gffread/{genome}/{genome}.tx2gene.tsv", genome = pep.sample_table["genome"].unique())
+        rds = "results/edger/object.{result}.rds",
+        tsv = expand("results/gffread/{genome}/{genome}.tx2gene.tsv", genome = config["genome"])
     output:
         csv = "results/edger/condition_{A}_vs_{B}.{result}.csv"
     log:

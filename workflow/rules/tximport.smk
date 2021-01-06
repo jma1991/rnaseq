@@ -5,13 +5,13 @@
 
 rule tximport:
     input:
-        hdf = expand("results/kallisto/quant/{sample}/abundance.h5", sample = pep.sample_table.index),
-        tsv = expand("results/gffread/{genome}/{genome}.tx2gene.tsv", genome = pep.sample_table["genome"].unique())
+        hdf = expand("results/kallisto/quant/{sample}/abundance.h5", sample = project.samples["sample"]),
+        tsv = expand("results/gffread/{genome}/{genome}.tx2gene.tsv", genome = config["genome"])
     output:
-        rds = "results/tximport/counts.rds"
+        rds = "results/tximport/object.rds"
     log:
-        out = "results/tximport/log.out",
-        err = "results/tximport/log.err"
+        out = "results/tximport/object.out",
+        err = "results/tximport/object.err"
     message:
         "[tximport] Import and summarize transcript-level estimates from Kallisto"
     conda:

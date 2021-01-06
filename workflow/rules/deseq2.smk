@@ -3,16 +3,16 @@
 # Email: jashmore@ed.ac.uk
 # License: MIT
 
-rule deseq2_init:
+rule deseq2_object:
     input:
-        rds = "results/{result}/counts.rds"
+        rds = "results/{result}/object.rds"
     output:
-        rds = "results/deseq2/dds.{result}.rds"
+        rds = "results/deseq2/object.{result}.rds"
     log:
-        out = "results/deseq2/dds.{result}.out",
-        err = "results/deseq2/dds.{result}.err"
+        out = "results/deseq2/object.{result}.out",
+        err = "results/deseq2/object.{result}.err"
     message:
-        "[DESeq2] Create a DESeqDataSet object from {wildcards.result} output: {input.rds}"
+        "[DESeq2] Create a DESeqDataSet object from {wildcards.result} object"
     conda:
         "../envs/deseq2.yaml"
     script:
@@ -20,7 +20,7 @@ rule deseq2_init:
 
 rule deseq2_counts:
     input:
-        rds = "results/deseq2/dds.{result}.rds"
+        rds = "results/deseq2/object.{result}.rds"
     output:
         csv = "results/deseq2/counts.{result}.csv"
     log:
@@ -35,7 +35,7 @@ rule deseq2_counts:
 
 rule deseq2_normcounts:
     input:
-        rds = "results/deseq2/dds.{result}.rds"
+        rds = "results/deseq2/object.{result}.rds"
     output:
         csv = "results/deseq2/normcounts.{result}.csv"
     log:
@@ -50,14 +50,14 @@ rule deseq2_normcounts:
 
 rule deseq2_logcounts:
     input:
-        rds = "results/deseq2/dds.{result}.rds"
+        rds = "results/deseq2/object.{result}.rds"
     output:
         csv = "results/deseq2/logcounts.{result}.csv"
     log:
         out = "results/deseq2/logcounts.{result}.out",
         err = "results/deseq2/logcounts.{result}.err"
     message:
-        "[DESeq2] Write log normalized counts matrix to disk"
+        "[DESeq2] Write log-normalized counts matrix to disk"
     conda:
         "../envs/deseq2.yaml"
     script:
@@ -65,8 +65,8 @@ rule deseq2_logcounts:
 
 rule deseq2_results:
     input:
-        rds = "results/deseq2/dds.{result}.rds",
-        tsv = expand("results/gffread/{genome}/{genome}.tx2gene.tsv", genome = pep.sample_table["genome"].unique())
+        rds = "results/deseq2/object.{result}.rds",
+        tsv = expand("results/gffread/{genome}/{genome}.tx2gene.tsv", genome = config["genome"])
     output:
         csv = "results/deseq2/condition_{A}_vs_{B}.{result}.csv"
     log:

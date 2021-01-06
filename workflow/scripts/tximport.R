@@ -19,15 +19,15 @@ main <- function(input, output, log) {
 
     library(tximport)
     
-    dat <- read.csv("config/sample_table.csv", colClasses = "character", stringsAsFactors = FALSE)
+    dat <- read.csv("config/samples.csv")
 
-    hdf <- file.path("results/kallisto/quant", dat$sample_name, "abundance.h5")
+    hdf <- file.path("results/kallisto/quant", dat$sample, "abundance.h5")
 
-    names(hdf) <- dat$sample_name
+    names(hdf) <- dat$sample
 
-    tbl <- read.table(input$tsv, col.names = c("transcript_id", "gene_id", "gene_name"))
+    ann <- read.table(input$tsv)
 
-    txi <- tximport(files = hdf, type = "kallisto", tx2gene = tbl)
+    txi <- tximport(files = hdf, type = "kallisto", tx2gene = ann)
 
     class(txi) <- c("list", "tximport")
 

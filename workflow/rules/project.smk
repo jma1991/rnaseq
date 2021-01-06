@@ -133,7 +133,7 @@ class Project:
     ## sambamba
 
     def sambamba_markdup(self):
-        return expand("results/sambamba/markdup/{sample}/{LB}/Aligned.sortedByCoord.out.markdup.bam", sample = self.samples)
+        return expand("results/sambamba/markdup/{sample}/Aligned.sortedByCoord.out.bam", sample = self.samples["sample"])
     
     def sambamba_output(self):
         return [
@@ -199,7 +199,7 @@ class Project:
             "results/kallisto/quant/{sample}/abundance.tsv",
             "results/kallisto/quant/{sample}/run_info.json"
         ]
-        return expand(ext, zip, sample = self.samples["sample"])
+        return expand(ext, sample = self.samples["sample"])
 
     def kallisto_output(self):
         return [
@@ -210,20 +210,16 @@ class Project:
     ## star
 
     def star_index(self):
-        itr = [
+        ext = [
             "results/star/index/{genome}"
         ]
-        return expand(itr, genome = self.genome)
+        return expand(ext, genome = self.config["genome"])
 
     def star_align(self):
         ext = [
-            "results/star/align/{sample}/{LB}/Aligned.sortedByCoord.out.bam",
-            "results/star/align/{sample}/{LB}/Log.final.out",
-            "results/star/align/{sample}/{LB}/Log.out",
-            "results/star/align/{sample}/{LB}/Log.progress.out",
-            "results/star/align/{sample}/{LB}/SJ.out.tab"
+            "results/star/align/{sample}/Aligned.sortedByCoord.out.bam",
         ]
-        return expand(ext, zip, sample = self.samples["sample"], LB = self.samples["LB"])
+        return expand(ext, sample = self.samples["sample"])
 
     def star_output(self):
         return [
@@ -254,17 +250,17 @@ class Project:
     ## bioconductor-deseq2
 
     def deseq2_object(self):
-        return "results/deseq2/object.rds"
+        return expand("results/deseq2/object.{type}.rds", type = "tximport")
 
     def deseq2_counts(self):
-        return "results/deseq2/counts.csv"
+        return expand("results/deseq2/counts.{type}.csv", type = "tximport")
 
     def deseq2_normcounts(self):
-        return "results/deseq2/normcounts.csv"
+        return expand("results/deseq2/normcounts.{type}.csv", type = "tximport")
 
     def deseq2_logcounts(self):
-        return "results/deseq2/logcounts.csv"
-    
+        return expand("results/deseq2/logcounts.{type}.csv", type = "tximport")
+
     def deseq2_results(self):
         return expand("results/deseq2/results_{A}_vs_{B}.csv")
 
@@ -273,23 +269,22 @@ class Project:
             self.deseq2_object(),
             self.deseq2_counts(),
             self.deseq2_normcounts(),
-            self.deseq2_logcounts(),
-            self.deseq2_results()
+            self.deseq2_logcounts()
         ]
 
     ## bioconductor-edger
 
     def edger_object(self):
-        return "results/edger/object.rds"
+        return expand("results/edger/object.{type}.rds", type = "tximport")
 
     def edger_counts(self):
-        return "results/edger/counts.csv"
+        return expand("results/edger/counts.{type}.csv", type = "tximport")
 
     def edger_normcounts(self):
-        return "results/edger/normcounts.csv"
+        return expand("results/edger/normcounts.{type}.csv", type = "tximport")
 
     def edger_logcounts(self):
-        return "results/edger/logcounts.csv"
+        return expand("results/edger/logcounts.{type}.csv", type = "tximport")
 
     def edger_output(self):
         return [

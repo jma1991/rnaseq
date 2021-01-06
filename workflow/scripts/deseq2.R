@@ -36,15 +36,11 @@ main <- function(input, output, log, config) {
 
     obj <- readRDS(input$rds)
 
-    dat <- read.csv("config/sample_table.csv", row.names = "sample_name", stringsAsFactors = FALSE)
+    dat <- read.csv("config/samples.csv", row.names = "sample", stringsAsFactors = FALSE)
 
-    dds <- DESeqDataSet(obj, colData = dat, design = ~ condition)
+    dds <- DESeqDataSet(object = obj, colData = dat, design = ~ condition)
 
-    ind <- edgeR::filterByExpr(counts(dds), group = dat$condition)
-
-    dds <- dds[ind, , drop = FALSE]
-
-    dds <- DESeq(dds, minReplicatesForReplace = Inf)
+    dds <- DESeq(dds)
 
     saveRDS(dds, file = output$rds)
 
