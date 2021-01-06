@@ -33,4 +33,5 @@ rule all:
         project.genomepy_output(),
         project.gffread_output(),
         project.tximport_output(),
-        project.deseq2_output()
+        project.deseq2_output(),
+        project.goseq_output()

@@ -8,3 +8,11 @@ units: "config/units.csv"
 genome: "GRCm38.p6"
 contrasts:
   condition_KO_vs_WT: {"A": "KO", "B": "WT"}
+
+txome:
+  source: "Ensembl"
+  organism: "Mus musculus"
+  release: "67"
+  genome: "GRCm38.p6"
+  fasta: "resources/fasta"
+  gtf: "resources/gtf"

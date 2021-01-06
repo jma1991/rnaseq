@@ -8,8 +8,6 @@ rule goseq:
         csv = "results/{result}/results_{A}_vs_{B}.{type}.csv"
     output:
         csv = "results/{result}/goseq_{A}_vs_{B}.{type}.csv"
-    params:
-        genome = "GRCm38"
     log:
         out = "results/{result}/goseq_{A}_vs_{B}.{type}.out",
         err = "results/{result}/goseq_{A}_vs_{B}.{type}.err"
