@@ -7,10 +7,11 @@ A workflow for RNA-seq analysis in Snakemake.
 [![Snakemake][shield-snakemake]](https://snakemake.readthedocs.io)
 [![MIT license][shield-license]](https://choosealicense.com/licenses/mit)
 
-```js
-paddington.pad('foo', 5, '_');   // _foo_
-paddington.left('foo', 5, '_');  // __foo
-paddington.right('foo', 5, '_'); // foo__
+```sh
+git clone https://github.com/jma1991/rnaseq.git
+cd rnaseq
+emacs config/config.yaml
+snakemake -n --use-conda
 ```
 
 Table of Contents
