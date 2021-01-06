@@ -117,8 +117,8 @@ Contributing
 To contribute to this workflow, clone this repository locally and commit your code on a separate branch. Please write unit tests for your code, and run the linter before opening a pull-request:
 
 ```sh
-make test  # run all unit tests
-make lint  # run the linter
+snakemake --generate-unit-tests # run all unit tests
+snakemake --lint # run the linter
 ```
 
 You can find more detail in our [contributing guide](#). Participation in this open source project is subject to a [Code of Conduct](#).
