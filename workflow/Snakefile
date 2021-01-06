@@ -33,5 +33,4 @@ rule all:
         project.gffread_output(),
         project.tximport_output(),
         project.deseq2_output(),
-        project.edger_output(),
-        project.star_output()
+        project.edger_output()
