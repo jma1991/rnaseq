@@ -322,6 +322,21 @@ class Project:
             self.limma_logcounts()
         ]
 
+    ## bioconductor-goseq
+
+    def goseq(self):
+        results = []
+        contrasts = self.config["contrasts"]
+        for contrast, conditions in contrasts.items():
+            result = expand("results/{result}/goseq_{A}_vs_{B}.{type}.csv", result = "deseq2", A = conditions["A"], B = conditions["B"], type = "tximport")
+            results.extend(result)
+        return results
+
+    def goseq_output(self):
+        return [
+            self.goseq()
+        ]
+
     ## deeptools
 
     def deeptools_coverage(self):

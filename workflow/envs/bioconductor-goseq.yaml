@@ -1,0 +1,7 @@
+name: bioconductor-goseq
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconductor-goseq

@@ -19,6 +19,7 @@ include: "rules/kallisto.smk"
 include: "rules/tximport.smk"
 include: "rules/deseq2.smk"
 include: "rules/edger.smk"
+include: "rules/goseq.smk"
 
 wildcard_constraints:
     sample = "|".join(project.samples["sample"]),
@@ -32,5 +33,4 @@ rule all:
         project.genomepy_output(),
         project.gffread_output(),
         project.tximport_output(),
-        project.deseq2_output(),
-        project.edger_output()
+        project.deseq2_output()
