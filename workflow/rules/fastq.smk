@@ -3,34 +3,19 @@
 # Email: jashmore@ed.ac.uk
 # License: MIT
 
-def fastq_input(wildcards):
-
-    df = project.units
-
-    ix = (df["sample"] == wildcards.sample) & (df["unit"] == wildcards.unit)
-
-    df = df.loc[ix, ]
-
-    if not wildcards.read:
-
-        return df["read1"]
-
-    elif wildcards.read == "_1":
-
-        return df["read1"]
-
-    elif wildcards.read == "_2":
-
-        return df["read2"]
-
-    else:
-
-        raise ValueError("You weren't supposed to be able to get here you know.")
-
 rule fastq:
     input:
-        fastq_input
+        fqz = fastq_input
     output:
-        "results/fastq/{sample}/{unit}{read,.*}.fastq.gz"
+        fqz = "results/fastq/{sample}/{unit}{read,.*}.fastq.gz"
+    log:
+        out = "results/fastq/{sample}/{unit}{read,.*}.out",
+        err = "results/fastq/{sample}/{unit}{read,.*}.err"
+    message:
+        "[coreutils] Create a symbolic link"
+    threads:
+        1
+    conda:
+        "../envs/coreutils.yaml"
     shell:
-        "ln -s {input} {output}"
+        "ln -s {input.fqz} {output.fqz} 1> {log.out} >2 {log.err}"

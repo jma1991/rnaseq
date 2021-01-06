@@ -6,9 +6,9 @@
 configfile: "config/config.yaml"
 
 include: "rules/project.smk"
-
 project = Project(config)
 
+include: "rules/common.smk"
 include: "rules/fastq.smk"
 include: "rules/fastqc.smk"
 include: "rules/cutadapt.smk"

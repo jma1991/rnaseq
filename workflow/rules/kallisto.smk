@@ -15,6 +15,8 @@ rule kallisto_index:
         "[Kallisto] Build a Kallisto index: {wildcards.genome}"
     threads:
         16
+    conda:
+        "../envs/kallisto.yaml"
     shell:
         "kallisto index -i {output.idx} {input.fas} 1> {log.out} 2> {log.err}"
 
@@ -84,5 +86,9 @@ rule kallisto_quant:
     params:
         out = "results/kallisto/quant/{sample}",
         arg = kallisto_quant_arguments
+    message:
+        "[kallisto]"
+    conda:
+        "../envs/kallisto.yaml"
     shell:
         "kallisto quant -i {input.idx} -o {params.out} -t {threads} {params.arg} {input.fqz} 1> {log.out} 2> {log.err}"

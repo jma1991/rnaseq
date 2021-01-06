@@ -13,5 +13,11 @@ rule fastqc:
     log:
         out = "results/fastqc/{sample}/{unit}{read}_fastqc.out",
         err = "results/fastqc/{sample}/{unit}{read}_fastqc.err"
+    message:
+        "[fastqc]"
+    threads:
+        1
+    conda:
+        "../envs/fastqc.yaml"
     shell:
         "fastqc -o {params.out} -t {threads} {input.fqz} 1> {log.out} 2> {log.err}"
