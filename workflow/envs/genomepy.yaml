@@ -1,3 +1,4 @@
+name: genomepy
 channels:
   - conda-forge
   - bioconda

@@ -1,3 +1,4 @@
+name: qualimap
 channels:
   - conda-forge
   - bioconda
