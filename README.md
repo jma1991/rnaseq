@@ -114,14 +114,14 @@ All of the methods documented above will throw a `TypeError` if an argument is n
 Contributing
 ------------
 
-To contribute to this workflow, clone this repository locally and commit your code on a separate branch. Please write unit tests for your code, and run the linter before opening a pull-request:
+To contribute to the workflow, clone this repository locally and commit your code on a separate branch. Please generate unit tests for your code, and run the linter before opening a pull-request:
 
 ```sh
 snakemake --generate-unit-tests # run all unit tests
 snakemake --lint # run the linter
 ```
 
-You can find more detail in our [contributing guide](#). Participation in this open source project is subject to a [Code of Conduct](#).
+You can find more detail in our [Contributing Guide](#). Participation in this open source project is subject to a [Code of Conduct](#).
 
 
 Support and Migration
