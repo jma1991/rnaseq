@@ -1,4 +1,8 @@
 *
+!CODE_OF_CONDUCT.md
+!CONTRIBUTING.md
+!LICENSE.md
+!README.md
 results
 results/*
 !results/README.md
@@ -17,5 +21,3 @@ results/*
 !.test
 !.test/config/*
 !.test/ngs-test-data
-!LICENSE
-!README.md
