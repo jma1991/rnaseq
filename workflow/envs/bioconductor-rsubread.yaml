@@ -1,6 +1,7 @@
+name: bioconductor-rsubread
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - hisat2
+  - bioconductor-rsubread

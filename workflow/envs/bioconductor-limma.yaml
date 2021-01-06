@@ -1,6 +1,7 @@
+name: bioconductor-limma
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - stringtie
+  - bioconductor-limma

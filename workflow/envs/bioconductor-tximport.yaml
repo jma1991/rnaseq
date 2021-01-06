@@ -1,6 +1,7 @@
+name: bioconductor-tximport
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconductor-limma
+  - bioconductor-tximport
