@@ -9,57 +9,17 @@ rule star_index:
         gtf = "results/genomepy/{genome}/{genome}.annotation.gtf"
     output:
         dir = directory("results/star/index/{genome}")
+    log:
+        out = "results/star/index/{genome}/STAR.out",
+        err = "results/star/index/{genome}/STAR.err"
     message:
         "[STAR] Creating a STAR index: {wildcards.genome}"
     threads:
         16
+    conda:
+        "../envs/star.yaml"
     shell:
-        "STAR --runMode genomeGenerate --runThreadN {threads} --genomeDir {output.dir} --genomeFastaFiles {input.fas} --sjdbGTFfile {input.gtf} --sjdbOverhang 74"
-
-def star_align_fastq(wildcards):
-
-    df = project.units
-
-    ix = df["sample"] == wildcards.sample
-
-    df = df[ix]
-
-    se = df["read2"].isnull().all()
-
-    pe = df["read2"].notnull().all()
-
-    if se:
-        return expand("results/cutadapt/{sample}/{unit}.fastq.gz", sample = wildcards.sample, unit = df["unit"])
-
-    if pe:
-        return expand("results/cutadapt/{sample}/{unit}{read}.fastq.gz", sample = wildcards.sample, unit = df["unit"], read = ["_1", "_2"])
-
-    raise ValueError("You weren't supposed to be able to get here you know.")
-
-
-def star_param_fastq(wildcards):
-
-    df = project.units
-
-    ix = df["sample"] == wildcards.sample
-
-    df = df[ix]
-
-    se = df["read2"].isnull().all()
-
-    pe = df["read2"].notnull().all()
-
-    if se:
-        r1 = expand("results/cutadapt/{sample}/{unit}.fastq.gz", sample = wildcards.sample, unit = df["unit"])
-        return r1
-
-    if pe:
-        r1 = expand("results/cutadapt/{sample}/{unit}_1.fastq.gz", sample = wildcards.sample, unit = df["unit"])
-        r2 = expand("results/cutadapt/{sample}/{unit}_2.fastq.gz", sample = wildcards.sample, unit = df["unit"])
-        return ",".join(r1) + " " + ",".join(r2)
-
-    raise ValueError("You weren't supposed to be able to get here you know.")
-
+        "STAR --runMode genomeGenerate --runThreadN {threads} --genomeDir {output.dir} --genomeFastaFiles {input.fas} --sjdbGTFfile {input.gtf} 1> {log.out} 2> {log.err}"
 
 rule star_align:
     input:
@@ -67,6 +27,9 @@ rule star_align:
         fqz = star_align_fastq
     output:
         bam = "results/star/align/{sample}/Aligned.sortedByCoord.out.bam"
+    log:
+        out = "results/star/align/{sample}/STAR.out",
+        err = "results/star/align/{sample}/STAR.err"
     params:
         fqz = star_param_fastq,
         out = "results/star/align/{sample}/"
@@ -74,5 +37,7 @@ rule star_align:
         "[STAR] Align single-end library to genome: {wildcards.sample}"
     threads:
         16
+    conda:
+        "../envs/star.yaml"
     shell:
-        "STAR --runMode alignReads --runThreadN {threads} --genomeDir {input.idx} --readFilesIn {params.fqz} --readFilesCommand gunzip -c --outFileNamePrefix {params.out} --outSAMtype BAM SortedByCoordinate --outTmpDir /tmp/TMPDIR/{wildcards.sample}"
+        "STAR --runMode alignReads --runThreadN {threads} --genomeDir {input.idx} --readFilesIn {params.fqz} --readFilesCommand gunzip -c --outFileNamePrefix {params.out} --outSAMtype BAM SortedByCoordinate --outTmpDir /tmp/TMPDIR/{wildcards.sample} 1> {log.out} 2> {log.err}"

@@ -21,11 +21,11 @@ main <- function(input, output, log, wildcards) {
     
     dds <- readRDS(input$rds)
 
-    ann <- read.delim(input$tsv, header = FALSE, col.names = c("transcript_id", "gene_id", "gene_name"))
-    
+    ann <- read.delim(input$tsv, header = FALSE, col.names = c("gene_id", "gene_name"))
+ 
     con <- c("condition", wildcards$A, wildcards$B)
     
-    res <- results(dds, contrast = con, cooksCutoff = FALSE, independentFiltering = FALSE)
+    res <- results(dds, contrast = con)
     
     res <- res[order(res$pvalue), ]
     

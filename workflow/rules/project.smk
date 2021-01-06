@@ -262,14 +262,20 @@ class Project:
         return expand("results/deseq2/logcounts.{type}.csv", type = "tximport")
 
     def deseq2_results(self):
-        return expand("results/deseq2/results_{A}_vs_{B}.csv")
+        results = []
+        contrasts = self.config["contrasts"]
+        for contrast, conditions in contrasts.items():
+            result = expand("results/deseq2/results_{A}_vs_{B}.{type}.csv", A = conditions["A"], B = conditions["B"], type = "tximport")
+            results.extend(result)
+        return results
 
     def deseq2_output(self):
         return [
             self.deseq2_object(),
             self.deseq2_counts(),
             self.deseq2_normcounts(),
-            self.deseq2_logcounts()
+            self.deseq2_logcounts(),
+            self.deseq2_results()
         ]
 
     ## bioconductor-edger

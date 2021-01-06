@@ -63,51 +63,100 @@ def get_fastqs(wildcards):
         u = project.units.loc[(wildcards.sample, wildcards.unit), ["read1", "read2"]].dropna()
         return {"fq1": u.read1, "fq2": u.read2}
 
-def kallisto_quant_index(wildcards):
-    x = project.samples.loc[wildcards.sample, "genome"]
-    return f"results/kallisto/index/{x}/{x}.idx"
-
 def kallisto_quant_fastq(wildcards):
-    if all_single_end(wildcards.sample):
-        return expand("results/cutadapt/{sample}/{unit}.fastq.gz", sample = wildcards.sample, unit = project.units.loc[wildcards.sample, "unit"])
-    elif all_paired_end(wildcards.sample):
-        return expand("results/cutadapt/{sample}/{unit}_{read_name}.fastq.gz", sample = wildcards.sample, unit = project.units.loc[wildcards.sample, "unit"], read_name = ["1", "2"])
-    else:
-        raise ValueError()
+
+    df = project.units
+
+    ix = df["sample"] == wildcards.sample
+
+    df = df[ix]
+
+    se = df["read2"].isnull().all()
+
+    pe = df["read2"].notnull().all()
+
+    if se:
+        return expand("results/cutadapt/{sample}/{unit}.fastq.gz", sample = wildcards.sample, unit = df["unit"])
+
+    if pe:
+        return expand("results/cutadapt/{sample}/{unit}{read}.fastq.gz", sample = wildcards.sample, unit = df["unit"], read = ["_1", "_2"])
+
+    raise ValueError("You weren't supposed to be able to get here you know.")
+
 
 def kallisto_quant_stranded(sample):
+
     d = {"U": "", "F": "--fr-stranded", "R": "--rf-stranded"}
-    k = project.samples.loc[sample, "stranded"]
+
+    i = project.samples["sample"] == sample
+
+    k = project.samples.loc[i, "stranded"].item()
+
     return d.get(k)
 
 def kallisto_quant_arguments(wildcards):
-    str = kallisto_quant_stranded(wildcards.sample)
-    if all_single_end(wildcards.sample):
-        return f"--single {str} --fragment-length=200 --sd=20"
-    elif all_paired_end(wildcards.sample):
-        return f"{str}"
-    else:
-        raise ValueError()
 
-def star_align_index(wildcards):
-    x = project.samples.loc[wildcards.sample, "genome"]
-    return f"results/star/index/{x}"
+    df = project.units
+
+    ix = df["sample"] == wildcards.sample
+
+    df = df[ix]
+
+    se = df["read2"].isnull().all()
+
+    pe = df["read2"].notnull().all()
+
+    st = kallisto_quant_stranded(wildcards.sample)
+
+    if se:
+        return f"--single {st} -l 200 -s 20"
+
+    if pe:
+        return f"{st}"
+
+    raise ValueError("You weren't supposed to be able to get here you know.")
+
 
 def star_align_fastq(wildcards):
-    if all_single_end(wildcards.sample):
-        return expand("results/cutadapt/{sample}/{unit}.fastq.gz", sample = wildcards.sample, unit = project.units.loc[wildcards.sample, "unit"])
-    elif all_paired_end(wildcards.sample):
-        return expand("results/cutadapt/{sample}/{unit}_{read_name}.fastq.gz", sample = wildcards.sample, unit = project.units.loc[wildcards.sample, "unit"], read_name = ["1", "2"])
-    else:
-        raise ValueError()
 
-def star_align_reads(wildcards):
-    if all_single_end(wildcards.sample):
-        fqz = expand("results/cutadapt/{sample}/{unit}.fastq.gz", sample = wildcards.sample, unit = project.units.loc[wildcards.sample, "unit"])
-        return ",".join(fqz)
-    elif all_paired_end(wildcards.sample):
-        fq1 = expand("results/cutadapt/{sample}/{unit}_1.fastq.gz", sample = wildcards.sample, unit = project.units.loc[wildcards.sample, "unit"])
-        fq2 = expand("results/cutadapt/{sample}/{unit}_2.fastq.gz", sample = wildcards.sample, unit = project.units.loc[wildcards.sample, "unit"])
-        return ",".join(fq1) + " " + ",".join(fq2)
-    else:
-        raise ValueError()
+    df = project.units
+
+    ix = df["sample"] == wildcards.sample
+
+    df = df[ix]
+
+    se = df["read2"].isnull().all()
+
+    pe = df["read2"].notnull().all()
+
+    if se:
+        return expand("results/cutadapt/{sample}/{unit}.fastq.gz", sample = wildcards.sample, unit = df["unit"])
+
+    if pe:
+        return expand("results/cutadapt/{sample}/{unit}{read}.fastq.gz", sample = wildcards.sample, unit = df["unit"], read = ["_1", "_2"])
+
+    raise ValueError("You weren't supposed to be able to get here you know.")
+
+
+def star_param_fastq(wildcards):
+
+    df = project.units
+
+    ix = df["sample"] == wildcards.sample
+
+    df = df[ix]
+
+    se = df["read2"].isnull().all()
+
+    pe = df["read2"].notnull().all()
+
+    if se:
+        r1 = expand("results/cutadapt/{sample}/{unit}.fastq.gz", sample = wildcards.sample, unit = df["unit"])
+        return r1
+
+    if pe:
+        r1 = expand("results/cutadapt/{sample}/{unit}_1.fastq.gz", sample = wildcards.sample, unit = df["unit"])
+        r2 = expand("results/cutadapt/{sample}/{unit}_2.fastq.gz", sample = wildcards.sample, unit = df["unit"])
+        return ",".join(r1) + " " + ",".join(r2)
+
+    raise ValueError("You weren't supposed to be able to get here you know.")

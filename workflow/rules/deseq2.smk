@@ -66,12 +66,12 @@ rule deseq2_logcounts:
 rule deseq2_results:
     input:
         rds = "results/deseq2/object.{result}.rds",
-        tsv = expand("results/gffread/{genome}/{genome}.tx2gene.tsv", genome = config["genome"])
+        tsv = expand("results/gffread/{genome}/{genome}.id2name.tsv", genome = config["genome"])
     output:
-        csv = "results/deseq2/condition_{A}_vs_{B}.{result}.csv"
+        csv = "results/deseq2/results_{A}_vs_{B}.{result}.csv"
     log:
-        out = "results/deseq2/condition_{A}_vs_{B}.{result}.out",
-        err = "results/deseq2/condition_{A}_vs_{B}.{result}.err"
+        out = "results/deseq2/results_{A}_vs_{B}.{result}.out",
+        err = "results/deseq2/results_{A}_vs_{B}.{result}.err"
     message:
         "[DESeq2] Extract results from a DESeq analysis: {wildcards.A} vs {wildcards.B}"
     conda:

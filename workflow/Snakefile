@@ -4,7 +4,7 @@
 # License: MIT
 
 configfile: "config/config.yaml"
-
+            
 include: "rules/project.smk"
 project = Project(config)
 
