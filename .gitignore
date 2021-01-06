@@ -4,6 +4,8 @@ results/*
 !results/README.md
 !config
 !config/*
+!docs
+!docs/*
 !resources
 !resources/*
 !workflow

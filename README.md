@@ -1,7 +1,7 @@
 # rnaseq <img align="right" width="200" src="docs/images/shield.png">
 
 
-A workflow for RNA-seq analyses in Snakemake.
+A workflow for RNA-seq analysis in Snakemake.
 
 
 [![Snakemake][shield-snakemake]](https://snakemake.readthedocs.io)
@@ -37,9 +37,22 @@ Usage
 
 Ripple is easiest to use when installed with [npm][npm]:
 
+
+Clone workflow into working directory:
+
 ```sh
-npm install paddington
+git clone https://github.com/jma1991/rnaseq.git
 ```
+
+Configure workflow
+
+Execute workflow and deploy software dependencies via conda:
+
+```sh
+snakemake --use-conda
+```
+
+
 
 Then you can load the module into your code with a `require` call:
 
@@ -129,7 +142,7 @@ If you're opening issues related to these, please mention the version that the i
 Thanks
 ------
 
-I would like to  
+I would like to
 
 
 License
