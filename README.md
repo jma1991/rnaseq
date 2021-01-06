@@ -117,7 +117,7 @@ Contributing
 To contribute to the workflow, clone this repository locally and commit your code on a separate branch. Please generate unit tests for your code, and run the linter before opening a pull-request:
 
 ```sh
-snakemake --generate-unit-tests # run all unit tests
+snakemake --generate-unit-tests # generate unit tests
 snakemake --lint # run the linter
 ```
 
@@ -142,8 +142,6 @@ If you're opening issues related to these, please mention the version that the i
 
 Thanks
 ------
-
-I would like to
 
 
 License
