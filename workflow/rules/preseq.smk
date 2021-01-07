@@ -3,25 +3,30 @@
 # Email: jashmore@ed.ac.uk
 # License: MIT
 
-def preseq_params(wildcards):
-    return None
+rule preseq_bam2mr:
+    input:
+        "results/star/align/{sample}/Aligned.sortedByCoord.out.bam"
+    output:
+        "results/preseq/bam2mr/{sample}.mr"
+    shell:
+        "to-mr {input} | sort -k 1,1, -k 2,2n -k 3,3n > {output}"
 
 rule preseq_c_curve:
     input:
-        bam = "results/star/{sample}/Aligned.sortedByCoord.out.bam"
+        "results/preseq/bam2mr/{sample}.mr"
     output:
-        txt = "results/preseq/{sample}_complexity_curve.txt"
+        "results/preseq/c_curve/{sample}.c_curve.txt"
     log:
-        "results/preseq/{sample}_complexity_curve.log"
+        "results/preseq/c_curve/{sample}.c_curve.log"
     params:
-        len = 50818468
+        preseq_params
     message:
         "[preseq] Compute complexity curve"
     conda:
         "../envs/preseq.yaml"
     shell:
-        "preseq c_curve -o {output.txt} -l {params.len} -s 100 -P -B {input.bam} > {log}"
-
+        "preseq c_curve -o {output} {params} {input} 2> {log}"
+        
 rule preseq_lc_extrap:
     input:
         bam = "results/star/{sample}/Aligned.sortedByCoord.out.bam"
@@ -62,13 +67,3 @@ rule preseq_bound_pop:
         "../envs/preseq.yaml"
     shell:
         "preseq bound_pop -o {output.txt} -l {params.len} -P -B {input.bam} > {log}"
-
-rule species_richness:
-    input:
-        txt = expand("results/preseq/{sample}_species_richness.txt", sample = SAMPLES)
-    output:
-        pdf = "results/preseq/species_richness.pdf"
-    params:
-        ids = SAMPLES
-    script:
-        "../scripts/species_richness.R"

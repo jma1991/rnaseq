@@ -79,6 +79,12 @@ def qualimap_rnaseq_params(wildcards):
 
     return " ".join(arg)
 
+def preseq_params(wildcards):
+    if all_single_end(wildcards.sample):
+        return ""
+    if all_paired_end(wildcards.sample):
+        return "-P"
+    raise ValueError("You weren't supposed to be able to get here you know.")
 
 def kallisto_quant_fastq(wildcards):
 

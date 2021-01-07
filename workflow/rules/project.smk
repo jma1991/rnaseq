@@ -393,10 +393,12 @@ class Project:
     ## preseq
 
     def preseq_c_curve(self):
-        return expand("results/preseq/c_curve/{sample}.c_curve.txt", sample = self.samples)
+        return expand("results/preseq/c_curve/{sample}.c_curve.txt", sample = self.samples["sample"])
     
     def preseq_output(self):
-        return self.preseq_c_curve()
+        return [
+            self.preseq_c_curve()
+        ]
 
     ## multiqc
 
