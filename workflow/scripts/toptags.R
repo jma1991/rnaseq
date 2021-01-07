@@ -21,7 +21,7 @@ main <- function(input, output, log, wildcards) {
 
     dge <- readRDS(input$rds)
 
-    ann <- read.delim(input$tsv, header = FALSE, col.names = c("transcript_id", "gene_id", "gene_name"))
+    ann <- read.delim(input$tsv, header = FALSE, col.names = c("gene_id", "gene_name"))
 
     con <- c(wildcards$B, wildcards$A)
 

@@ -20,7 +20,7 @@ rule genomepy_install:
     conda:
         "../envs/genomepy.yaml"
     shell:
-        "genomepy install -g results/genomepy -a {wildcards.genome} 1> {log.out} 2> {log.err}"
+        "genomepy install -g results/genomepy -r 'chrX' -a {wildcards.genome} 1> {log.out} 2> {log.err}"
 
 rule genomepy_gunzip:
     input:

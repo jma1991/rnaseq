@@ -12,7 +12,7 @@ rule goseq:
         out = "results/{result}/goseq_{A}_vs_{B}.{type}.out",
         err = "results/{result}/goseq_{A}_vs_{B}.{type}.err"
     message:
-        "[bioconductor-goseq]"
+        "[bioconductor-goseq] Detect gene ontology categories which are over/under represented in {wildcards.A} vs {wildcards.B}"
     conda:
         "../envs/bioconductor-goseq.yaml"
     script:

@@ -8,9 +8,6 @@ rule fastq:
         fqz = fastq_input
     output:
         fqz = "results/fastq/{sample}/{unit}{read,.*}.fastq.gz"
-    log:
-        out = "results/fastq/{sample}/{unit}{read,.*}.out",
-        err = "results/fastq/{sample}/{unit}{read,.*}.err"
     message:
         "[coreutils] Create a symbolic link"
     threads:
@@ -18,4 +15,4 @@ rule fastq:
     conda:
         "../envs/coreutils.yaml"
     shell:
-        "ln -s {input.fqz} {output.fqz} 1> {log.out} >2 {log.err}"
+        "ln -s {input.fqz} {output.fqz}"

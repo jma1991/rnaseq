@@ -5,14 +5,14 @@
 
 samples: "config/samples.csv"
 units: "config/units.csv"
-genome: "GRCm38.p6"
+genome: "hg19"
 contrasts:
-  condition_KO_vs_WT: {"A": "KO", "B": "WT"}
+  condition_GBR_vs_YRI: {"A": "GBR", "B": "YRI"}
 
 txome:
-  source: "Ensembl"
-  organism: "Mus musculus"
-  release: "67"
-  genome: "GRCm38.p6"
-  fasta: "resources/fasta"
-  gtf: "resources/gtf"
+  source: "UCSC"
+  organism: "Homo sapiens"
+  release: "release"
+  genome: "hg19"
+  fasta: "fasta"
+  gtf: "fgtf"

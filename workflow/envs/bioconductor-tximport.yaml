@@ -5,3 +5,4 @@ channels:
   - defaults
 dependencies:
   - bioconductor-tximport
+  - bioconductor-rhdf5

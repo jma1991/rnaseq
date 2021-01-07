@@ -20,6 +20,10 @@ include: "rules/tximport.smk"
 include: "rules/deseq2.smk"
 include: "rules/edger.smk"
 include: "rules/goseq.smk"
+include: "rules/sambamba.smk"
+
+# Quality control
+include: "rules/rseqc.smk"
 
 wildcard_constraints:
     sample = "|".join(project.samples["sample"]),
@@ -34,4 +38,12 @@ rule all:
         project.gffread_output(),
         project.tximport_output(),
         project.deseq2_output(),
-        project.goseq_output()
+        project.edger_output(),
+        project.star_output(),
+        project.sambamba_output(),
+        project.rseqc_output()
+
+
+
+
+

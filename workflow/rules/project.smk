@@ -89,25 +89,55 @@ class Project:
     ## rseqc
 
     def rseqc_bam_stat(self):
-        return expand("results/rseqc/bam_stat/{sample}", zip, sample = self.samples["sample"])
+        return expand("results/rseqc/bam_stat/{sample}.bam_stat.txt", zip, sample = self.samples["sample"])
     
     def rseqc_inner_distance(self):
-        return expand("results/rseqc/inner_distance/{sample}/{LB}", zip, sample = self.samples["sample"], LB = self.samples["LB"])
-    
+        ext = [
+            "results/rseqc/inner_distance/{sample}.inner_distance.txt",
+            "results/rseqc/inner_distance/{sample}.inner_distance_freq.txt",
+            "results/rseqc/inner_distance/{sample}.inner_distance_plot.pdf",
+            "results/rseqc/inner_distance/{sample}.inner_distance_plot.r"
+        ]
+        return expand(ext, sample = self.samples["sample"])
+
     def rseqc_infer_experiment(self):
-        return expand("results/rseqc/infer_experiment/{sample}/{LB}", zip, sample = self.samples["sample"], LB = self.samples["LB"])
+        ext = [
+            "results/rseqc/infer_experiment/{sample}.infer_experiment.txt"
+        ]
+        return expand(ext, sample = self.samples["sample"])
 
     def rseqc_junction_annotation(self):
-        return expand("results/rseqc/junction_annotation/{sample}/{LB}", zip, sample = self.samples["sample"], LB = self.samples["LB"])
-    
+        ext = [
+            "results/rseqc/junction_annotation/{sample}.junction.Interact.bed",
+            "results/rseqc/junction_annotation/{sample}.junction.bed",
+            "results/rseqc/junction_annotation/{sample}.junction.xls",
+            "results/rseqc/junction_annotation/{sample}.junction_plot.r",
+            "results/rseqc/junction_annotation/{sample}.splice_events.pdf",
+            "results/rseqc/junction_annotation/{sample}.splice_junction.pdf"
+        ]
+        return expand(ext, sample = self.samples["sample"])
+
     def rseqc_junction_saturation(self):
-        return expand("results/rseqc/junction_saturation/{sample}/{LB}", zip, sample = self.samples["sample"], LB = self.samples["LB"])
-    
+        ext = [
+            "results/rseqc/junction_saturation/{sample}.junctionSaturation_plot.pdf",
+            "results/rseqc/junction_saturation/{sample}.junctionSaturation_plot.r"
+        ]
+        return expand(ext, sample = self.samples["sample"])
+
     def rseqc_read_distribution(self):
-        return expand("results/rseqc/read_distribution/{sample}/{LB}", zip, sample = self.samples["sample"], LB = self.samples["LB"])
-    
+        ext = [
+            "results/rseqc/read_distribution/{sample}.read_distribution.txt"
+        ]
+        return expand(ext, sample = self.samples["sample"])
+
     def rseqc_read_duplication(self):
-        return expand("results/rseqc/read_duplication/{sample}/{LB}", zip, sample = self.samples["sample"], LB = self.samples["LB"])
+        ext = [
+            "results/rseqc/read_duplication/{sample}.DupRate_plot.pdf",
+            "results/rseqc/read_duplication/{sample}.DupRate_plot.r",
+            "results/rseqc/read_duplication/{sample}.pos.DupRate.xls",
+            "results/rseqc/read_duplication/{sample}.seq.DupRate.xls"
+        ]
+        return expand(ext, sample = self.samples["sample"])
 
     def rseqc_output(self):
         return [
@@ -292,12 +322,21 @@ class Project:
     def edger_logcounts(self):
         return expand("results/edger/logcounts.{type}.csv", type = "tximport")
 
+    def edger_results(self):
+        results = []
+        contrasts = self.config["contrasts"]
+        for contrast, conditions in contrasts.items():
+            result = expand("results/edger/results_{A}_vs_{B}.{type}.csv", A = conditions["A"], B = conditions["B"], type = "tximport")
+            results.extend(result)
+        return results
+
     def edger_output(self):
         return [
             self.edger_object(),
             self.edger_counts(),
             self.edger_normcounts(),
-            self.edger_logcounts()
+            self.edger_logcounts(),
+            self.edger_results()
         ]
 
     ## bioconductor-limma

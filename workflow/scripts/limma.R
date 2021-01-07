@@ -15,8 +15,8 @@ DGEList.rsubread <- function(object, samples, group) {
 
 DGEList.tximport <- function(object, samples, group) {
     # tximport method
-    cts <- tximport::makeCountsFromAbundance(object$counts, object$abundance, object$length, countsFromAbundance = "lengthScaledTPM")
-    edgeR::DGEList(counts = cts, samples = samples, group = group)
+    counts <- tximport::makeCountsFromAbundance(object$counts, object$abundance, object$length, countsFromAbundance = "lengthScaledTPM")
+    edgeR::DGEList(counts = counts, samples = samples, group = group)
 }
 
 main <- function(input, output, log) {
@@ -39,13 +39,13 @@ main <- function(input, output, log) {
 
     obj <- readRDS(input$rds)
 
-    dat <- read.csv("config/sample_table.csv", row.names = "sample_name", stringsAsFactors = FALSE)
+    dat <- read.csv("config/samples.csv", row.names = "sample", stringsAsFactors = FALSE)
 
     dge <- DGEList(object = obj, samples = dat, group = dat$condition)
 
-    idx <- filterByExpr(dge, group = dat$condition)
+    ind <- filterByExpr(dge, group = dat$condition)
 
-    dge <- dge[idx, , keep.lib.sizes = FALSE]
+    dge <- dge[ind, , keep.lib.sizes = FALSE]
 
     dge <- calcNormFactors(dge)
 

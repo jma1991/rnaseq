@@ -66,15 +66,16 @@ rule edger_logcounts:
 rule edger_results:
     input:
         rds = "results/edger/object.{result}.rds",
-        tsv = expand("results/gffread/{genome}/{genome}.tx2gene.tsv", genome = config["genome"])
+        tsv = expand("results/gffread/{genome}/{genome}.id2name.tsv", genome = config["genome"])
     output:
-        csv = "results/edger/condition_{A}_vs_{B}.{result}.csv"
+        csv = "results/edger/results_{A}_vs_{B}.{result}.csv"
     log:
-        out = "results/edger/condition_{A}_vs_{B}.{result}.out",
-        err = "results/edger/condition_{A}_vs_{B}.{result}.err"
+        out = "results/edger/results_{A}_vs_{B}.{result}.out",
+        err = "results/edger/results_{A}_vs_{B}.{result}.err"
     message:
         "[edgeR] Compute gene-wise exact test: {wildcards.A} vs {wildcards.B}"
     conda:
         "../envs/edger.yaml"
     script:
-        "../scripts/exact.R"
+        "../scripts/toptags.R"
+

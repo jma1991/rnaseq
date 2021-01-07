@@ -14,7 +14,7 @@ rule fastqc:
         out = "results/fastqc/{sample}/{unit}{read}_fastqc.out",
         err = "results/fastqc/{sample}/{unit}{read}_fastqc.err"
     message:
-        "[fastqc]"
+        "[fastqc] Generate quality control report for {input.fqz}"
     threads:
         1
     conda:
