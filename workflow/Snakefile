@@ -24,6 +24,7 @@ include: "rules/sambamba.smk"
 
 # Quality control
 include: "rules/rseqc.smk"
+include: "rules/qualimap.smk"
 
 wildcard_constraints:
     sample = "|".join(project.samples["sample"]),
@@ -41,9 +42,5 @@ rule all:
         project.edger_output(),
         project.star_output(),
         project.sambamba_output(),
-        project.rseqc_output()
-
-
-
-
-
+        project.rseqc_output(),
+        project.qualimap_output()

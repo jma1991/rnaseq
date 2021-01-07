@@ -34,25 +34,23 @@ def fastq_input(wildcards):
         raise ValueError("You weren't supposed to be able to get here you know.")
 
 def all_single_end(sample):
-    u = project.units.loc[sample, ]
+    u = project.units.loc[project.units["sample"] == sample, ]
     m = [is_single_end(sample, x) for x in u["unit"]]
     return all(m)
 
 def all_paired_end(sample):
-    u = project.units.loc[sample, ]
+    u = project.units.loc[project.units["sample"] == sample, ]
     m = [is_paired_end(sample, x) for x in u["unit"]]
     return all(m)
 
 def is_single_end(sample, unit):
-    obj = project.units.loc[(sample, unit), "read2"]
-    if isinstance(obj, pd.core.series.Series):
-        raise ValueError()
+    ind = (project.units["sample"] == sample) & (project.units["unit"] == unit)
+    obj = project.units.loc[ind, "read2"].item()
     return pd.isnull(obj)
 
 def is_paired_end(sample, unit):
-    obj = project.units.loc[(sample, unit), "read2"]
-    if isinstance(obj, pd.core.series.Series):
-        raise ValueError()
+    ind = (project.units["sample"] == sample) & (project.units["unit"] == unit)
+    obj = project.units.loc[ind, "read2"].item()
     return pd.notnull(obj)
 
 def get_fastqs(wildcards):
@@ -62,6 +60,25 @@ def get_fastqs(wildcards):
     else:
         u = project.units.loc[(wildcards.sample, wildcards.unit), ["read1", "read2"]].dropna()
         return {"fq1": u.read1, "fq2": u.read2}
+
+def qualimap_rnaseq_params(wildcards):
+    
+    arg = []
+
+    d = {"U": "non-strand-specific", "F": "strand-specific-forward", "R": "strand-specific-reverse"}
+    k = project.samples.loc[project.samples["sample"] == wildcards.sample, "stranded"].item()
+    v = "-p" + " " + d.get(k)
+    arg.append(v)
+    
+    if all_single_end(wildcards.sample):
+        arg.append("")
+    elif all_paired_end(wildcards.sample):
+        arg.append("-pe")
+    else:
+        raise ValueError("You weren't supposed to be able to get here you know.")
+
+    return " ".join(arg)
+
 
 def kallisto_quant_fastq(wildcards):
 

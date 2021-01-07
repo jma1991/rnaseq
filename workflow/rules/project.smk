@@ -153,7 +153,7 @@ class Project:
     ## qualimap
 
     def qualimap_rnaseq(self):
-        return expand("results/qualimap/rnaseq/{sample}/{LB}", sample = self.samples)
+        return expand("results/qualimap/rnaseq/{sample}", sample = self.samples["sample"])
     
     def qualimap_output(self):
         return [
