@@ -5,6 +5,7 @@
 
 samples: "config/samples.csv"
 units: "config/units.csv"
+
 genome: "hg19"
 contrasts:
   condition_GBR_vs_YRI: {"A": "GBR", "B": "YRI"}

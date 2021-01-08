@@ -294,22 +294,22 @@ class Project:
     ## bioconductor-deseq2
 
     def deseq2_object(self):
-        return expand("results/deseq2/object.{type}.rds", type = "tximport")
+        return expand("results/deseq2/object.{type}.rds", type = ["tximport", "rsubread"])
 
     def deseq2_counts(self):
-        return expand("results/deseq2/counts.{type}.csv", type = "tximport")
+        return expand("results/deseq2/counts.{type}.csv", type = ["tximport", "rsubread"])
 
     def deseq2_normcounts(self):
-        return expand("results/deseq2/normcounts.{type}.csv", type = "tximport")
+        return expand("results/deseq2/normcounts.{type}.csv", type = ["tximport", "rsubread"])
 
     def deseq2_logcounts(self):
-        return expand("results/deseq2/logcounts.{type}.csv", type = "tximport")
+        return expand("results/deseq2/logcounts.{type}.csv", type = ["tximport", "rsubread"])
 
     def deseq2_results(self):
         results = []
         contrasts = self.config["contrasts"]
         for contrast, conditions in contrasts.items():
-            result = expand("results/deseq2/results_{A}_vs_{B}.{type}.csv", A = conditions["A"], B = conditions["B"], type = "tximport")
+            result = expand("results/deseq2/results_{A}_vs_{B}.{type}.csv", A = conditions["A"], B = conditions["B"], type = ["tximport", "rsubread"])
             results.extend(result)
         return results
 
@@ -325,22 +325,22 @@ class Project:
     ## bioconductor-edger
 
     def edger_object(self):
-        return expand("results/edger/object.{type}.rds", type = "tximport")
+        return expand("results/edger/object.{type}.rds", type = ["tximport", "rsubread"])
 
     def edger_counts(self):
-        return expand("results/edger/counts.{type}.csv", type = "tximport")
+        return expand("results/edger/counts.{type}.csv", type = ["tximport", "rsubread"])
 
     def edger_normcounts(self):
-        return expand("results/edger/normcounts.{type}.csv", type = "tximport")
+        return expand("results/edger/normcounts.{type}.csv", type = ["tximport", "rsubread"])
 
     def edger_logcounts(self):
-        return expand("results/edger/logcounts.{type}.csv", type = "tximport")
+        return expand("results/edger/logcounts.{type}.csv", type = ["tximport", "rsubread"])
 
     def edger_results(self):
         results = []
         contrasts = self.config["contrasts"]
         for contrast, conditions in contrasts.items():
-            result = expand("results/edger/results_{A}_vs_{B}.{type}.csv", A = conditions["A"], B = conditions["B"], type = "tximport")
+            result = expand("results/edger/results_{A}_vs_{B}.{type}.csv", A = conditions["A"], B = conditions["B"], type = ["tximport", "rsubread"])
             results.extend(result)
         return results
 
@@ -381,7 +381,7 @@ class Project:
         results = []
         contrasts = self.config["contrasts"]
         for contrast, conditions in contrasts.items():
-            result = expand("results/{result}/goseq_{A}_vs_{B}.{type}.csv", result = "deseq2", A = conditions["A"], B = conditions["B"], type = "tximport")
+            result = expand("results/{result}/goseq_{A}_vs_{B}.{type}.csv", result = "deseq2", A = conditions["A"], B = conditions["B"], type = ["tximport", "rsubread"])
             results.extend(result)
         return results
 
@@ -393,15 +393,11 @@ class Project:
     ## deeptools
 
     def deeptools_coverage(self):
-        return expand("results/deeptools/coverage/{sample}.bigWig", sample = self.samples)
-    
-    def deeptools_profile(self):
-        return expand("results/deeptools/profile/genes.pdf")
+        return expand("results/deeptools/coverage/{sample}.RPKM.bigWig", sample = self.samples["sample"])
 
     def deeptools_output(self):
         return [
-            self.deeptools_coverage(),
-            self.deeptools_profile()
+            self.deeptools_coverage()
         ]
     
     ## preseq

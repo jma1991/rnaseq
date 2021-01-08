@@ -5,13 +5,13 @@
 
 rule rsubread:
     input:
-        bam = expand("results/star/align/{sample}/Aligned.sortedByCoord.out.bam", sample = pep.sample_table.index),
-        gtf = expand("results/genomepy/{genome}/{genome}.annotation.gtf", genome = pep.sample_table["genome"].unique())
+        bam = expand("results/star/align/{sample}/Aligned.sortedByCoord.out.bam", sample = project.samples["sample"]),
+        gtf = expand("results/genomepy/{genome}/{genome}.annotation.gtf", genome = config["genome"])
     output:
-        rds = "results/rsubread/counts.rds"
+        rds = "results/rsubread/object.rds"
     log:
-        out = "results/rsubread/counts.out",
-        err = "results/rsubread/counts.err"
+        out = "results/rsubread/object.out",
+        err = "results/rsubread/object.err"
     message:
         "[Rsubread] Counting reads to genomic features"
     threads:

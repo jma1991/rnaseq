@@ -15,12 +15,14 @@ include: "rules/cutadapt.smk"
 include: "rules/genomepy.smk"
 include: "rules/gffread.smk"
 include: "rules/star.smk"
+include: "rules/rsubread.smk"
 include: "rules/kallisto.smk"
 include: "rules/tximport.smk"
 include: "rules/deseq2.smk"
 include: "rules/edger.smk"
 include: "rules/goseq.smk"
 include: "rules/sambamba.smk"
+include: "rules/deeptools.smk"
 
 # Quality control
 include: "rules/rseqc.smk"
@@ -46,4 +48,5 @@ rule all:
         project.sambamba_output(),
         project.rseqc_output(),
         project.qualimap_output(),
-        project.dupradar_output()
+        project.dupradar_output(),
+        project.deeptools_output()

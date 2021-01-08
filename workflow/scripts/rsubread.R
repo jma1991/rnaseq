@@ -31,13 +31,14 @@ main <- function(input, output, log, threads) {
 
     library(Rsubread)
 
-    dat <- read.csv("config/sample_table.csv", colClasses = "character", stringsAsFactors = FALSE)
+    dat <- read.csv("config/samples.csv", colClasses = "character", stringsAsFactors = FALSE)
 
     out <- featureCounts(
-        files = file.path("results/star/align", dat$sample_name, "Aligned.sortedByCoord.out.bam"),
+        files = file.path("results/star/align", dat$sample, "Aligned.sortedByCoord.out.bam"),
         annot.ext = input$gtf,
         isGTFAnnotationFile = TRUE,
         strandSpecific = featureCounts.strandSpecific(dat$stranded),
+        isPairedEnd = TRUE,
         nthreads = threads
     )
 
