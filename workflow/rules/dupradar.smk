@@ -3,53 +3,56 @@
 # Email: jashmore@ed.ac.uk
 # License: MIT
 
-rule dupradar_analyze_duprates:
+def dupradar_params_stranded(wildcards):
+
+    k = project.samples.loc[project.samples["sample"] == wildcards.sample, "stranded"].item()
+
+    d = {"U": 0, "F": 1, "R": 2}
+
+    v = d.get(k)
+
+    return v
+
+
+def dupradar_params_paired(wildcards):
+
+    if all_single_end(wildcards.sample):
+
+        return False
+
+    if all_paired_end(wildcards.sample):
+
+        return True
+
+    return ValueError("ValueError")
+
+
+rule dupradar_analyze:
     input:
-        bam = "results/sambamba/{sample}/Aligned.sortedByCoord.out.markdup.bam",
-        gtf = expand("results/genomepy/{genome}/{genome}.annotation.gtf", genome = GENOME)
+        bam = "results/sambamba/markdup/{sample}/Aligned.sortedByCoord.out.bam",
+        gtf = expand("results/genomepy/{genome}/{genome}.annotation.gtf", genome = config["genome"])
     output:
         csv = "results/dupradar/{sample}.analyzeDuprates.csv"
     log:
-        "results/dupradar/{sample}.analyzeDuprates.log"
+        out = "results/dupradar/{sample}.analyzeDuprates.out",
+        err = "results/dupradar/{sample}.analyzeDuprates.err"
     params:
-        stranded = dupradar_stranded
+        stranded = dupradar_params_stranded,
+        paired = dupradar_params_paired
     conda:
         "../envs/dupradar.yaml"
     script:
         "../scripts/analyzeDuprates.R"
 
-rule dupradar_duprate_densplot:
+rule dupradar_densplot:
     input:
         csv = "results/dupradar/{sample}.analyzeDuprates.csv"
     output:
         pdf = "results/dupradar/{sample}.duprateExpDensPlot.pdf"
     log:
-        "results/dupradar/{sample}.duprateExpDensPlot.log"
+        out = "results/dupradar/{sample}.duprateExpDensPlot.out",
+        err = "results/dupradar/{sample}.duprateExpDensPlot.err"
     conda:
         "../envs/dupradar.yaml"
     script:
         "../scripts/duprateExpDensPlot.R"
-
-rule dupradar_expression_hist:
-    input:
-        csv = "results/dupradar/{sample}.analyzeDuprates.csv"
-    output:
-        pdf = "results/dupradar/{sample}.expressionHist.pdf"
-    log:
-        "results/dupradar/{sample}.expressionHist.log"
-    conda:
-        "../envs/dupradar.yaml"
-    script:
-        "../scripts/expressionHist.R"
-
-rule dupradar_duprate_boxplot:
-    input:
-        csv = "results/dupradar/{sample}.analyzeDuprates.csv"
-    output:
-        pdf = "results/dupradar/{sample}.duprateExpBoxplot.pdf"
-    log:
-        "results/dupradar/{sample}.duprateExpBoxplot.log"
-    conda:
-        "../envs/dupradar.yaml"
-    script:
-        "../scripts/duprateExpBoxplot.R"

@@ -3,14 +3,32 @@
 # Email: jashmore@ed.ac.uk
 # License: MIT
 
-main <- function(input, output, params, threads) {
+main <- function(input, output, params, log, threads) {
+
+    # Log function
+
+    out <- file(log$out, open = "wt")
+
+    err <- file(log$err, open = "wt")
+
+    sink(out, type = "output")
+
+    sink(err, type = "message")
+
+    # Script function
 
     library(dupRadar)
 
-    mat <- analyzeDuprates(input$bam, input$gtf, stranded = params$stranded, paired = TRUE, threads = threads)
+    mat <- analyzeDuprates(
+        bam = input$bam,
+        gtf = input$gtf,
+        stranded = params$stranded,
+        paired = params$paired,
+        threads = threads
+    )
 
-    write.csv(mat, file = output$csv, quote = FALSE, row.names = FALSE)
+    write.csv(mat, file = output$csv)
 
 }
 
-main(snakemake@input, snakemake@output, snakemake@params, snakemake@threads)
+main(snakemake@input, snakemake@output, snakemake@params, snakemake@log, snakemake@threads)

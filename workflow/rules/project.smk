@@ -160,6 +160,20 @@ class Project:
             self.qualimap_rnaseq()
         ]
 
+    # dupRadar
+
+    def dupradar_analyze(self):
+        return expand("results/dupradar/{sample}.analyzeDuprates.csv", sample = self.samples["sample"])
+
+    def dupradar_densplot(self):
+        return expand("results/dupradar/{sample}.duprateExpDensPlot.pdf", sample = self.samples["sample"])
+
+    def dupradar_output(self):
+        return [
+            self.dupradar_analyze(),
+            self.dupradar_densplot()
+        ]
+
     ## sambamba
 
     def sambamba_markdup(self):

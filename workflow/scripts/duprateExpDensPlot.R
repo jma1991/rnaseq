@@ -3,11 +3,23 @@
 # Email: jashmore@ed.ac.uk
 # License: MIT
 
-main <- function(input, output) {
+main <- function(input, output, log) {
+
+    # Log function
+
+    out <- file(log$out, open = "wt")
+
+    err <- file(log$err, open = "wt")
+
+    sink(out, type = "output")
+
+    sink(err, type = "message")
+
+    # Script function
 
     library(dupRadar)
 
-    mat <- read.csv(input$csv, stringsAsFactors = FALSE)
+    mat <- read.csv(input$csv)
 
     pdf(output$pdf)
 
@@ -17,4 +29,4 @@ main <- function(input, output) {
 
 }
 
-main(snakemake@input, snakemake@output)
+main(snakemake@input, snakemake@output, snakemake@log)
