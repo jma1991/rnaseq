@@ -27,14 +27,14 @@ Table of Contents
 Requirements
 ------------
 
-This workflow requires the following to run:
+This workflow requires the following software to run:
 
-  * [Snakemake][node] 0.10+
-  * [Conda][npm] (normally comes with Node.js)
-
+  * [Snakemake][snakemake] 0.10+
+  * [Conda][code] (normally comes with Node.js)
 
 Usage
 -----
+
 
 Ripple is easiest to use when installed with [npm][npm]:
 
@@ -109,6 +109,27 @@ paddington.pad('foobar', 5); // returns "foobar"
 ### Error handling
 
 All of the methods documented above will throw a `TypeError` if an argument is not of the expected type.
+
+
+
+
+
+
+
+Configuration
+-------------
+
+Configure the workflow by editing the files in the `config` folder:
+
+- The `config.yaml`file
+
+- The `samples.csv` file
+
+- The `units.csv` file
+
+
+
+
 
 
 Contributing
