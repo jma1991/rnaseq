@@ -52,13 +52,13 @@ snakemake --use-conda
 Configuration
 -------------
 
-Configure the workflow by editing the files in the `config` folder:
+Configure the workflow by editing the files in the `config` directory:
 
-- The `config.yaml` is the basic configuration file for the workflow. 
+- `config.yaml` is a YAML file containing the workflow metadata.
 
-- The `samples.csv` file contains sample metadata, with 1 row per sample.
+- `samples.csv` is a CSV file containing the sample metadata.
 
-- The `units.csv` file
+- `units.csv` is a CSV file contains the unit metadata.
 
 Contributing
 ------------
