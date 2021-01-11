@@ -21,11 +21,31 @@ add.symbol <- function(x, n = 50) {
 
     # Show symbol for the top N genes in the results table
 
-    i <- sort(x$FDR, decreasing = FALSE, index.return = TRUE)$ix[seq_len(n)]
+    y <- subset(x, status %in% c("Up", "Down"))
+    
+    r <- rank(-y$baseMean) + rank(-abs(y$log2FoldChange)) + rank(y$PValue)
+
+    n <- min(n, nrow(y))
+    
+    i <- sort(r, decreasing = FALSE, index.return = TRUE)$ix[seq_len(n)]
+
+    i <- x$geneId %in% y$geneId[i]
 
     x$symbol <- ""
     
     x$symbol[i] <- x$geneName[i]
+
+    return(x)
+
+}
+
+shrink.log2FoldChange <- function(x, lfc = 3) {
+
+    # Shrink absolute log2FoldChange values greater than threshold
+
+    x$log2FoldChange[x$log2FoldChange > lfc] <- lfc
+
+    x$log2FoldChange[x$log2FoldChange < -lfc] <- -lfc
 
     return(x)
 
@@ -51,13 +71,15 @@ main <- function(input, output, log ) {
 
     library(scales)
     
-    res <- read.csv(input$csv, row.names = 1)
+    res <- read.csv(input$csv)
 
     res <- add.status(res, fdr.threshold = 0.05)
 
     res <- add.symbol(res, n = 50)
 
-    res <- res[order(res$FDR, decreasing = TRUE), ]
+    res <- shrink.log2FoldChange(res, lfc = 3)
+
+    res <- res[order(res$PValue, decreasing = TRUE), ]
     
     col <- c("Up" = "#d8b365", "NS" = "#f5f5f5", "Down" = "#5ab4ac")
 
@@ -80,19 +102,6 @@ main <- function(input, output, log ) {
         )
 
     ggsave(output$pdf, plot = plt, width = 7, height = 7)
-
-
-    # Image function
-
-    library(magick)
-    
-    pdf <- image_read_pdf(output$pdf)
-    
-    pdf <- image_trim(pdf)
-
-    pdf <- image_border(pdf, color = "#FFFFFF", geometry = "50x50")
-    
-    pdf <- image_write(pdf, path = output$pdf, format = "pdf")
 
 }
 

@@ -76,18 +76,6 @@ main <- function(input, output, log) {
         height = 7
     )
 
-    # Image function
-
-    library(magick)
-
-    pdf <- image_read_pdf(output$pdf)
-    
-    pdf <- image_trim(pdf)
-
-    pdf <- image_border(pdf, color = "#FFFFFF", geometry = "50x50")
-    
-    pdf <- image_write(pdf, path = output$pdf, format = "pdf")
-
 }
 
 main(snakemake@input, snakemake@output, snakemake@log)

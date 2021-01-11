@@ -399,11 +399,47 @@ class Project:
     def plots_cmdscale(self):
         return expand("results/{result}/cmdscale.{type}.pdf", result = ["deseq2", "edger", "limma"], type = ["tximport", "rsubread"])
 
+    def plots_diff(self):
+        results = []
+        contrasts = self.config["contrasts"]
+        for contrast, conditions in contrasts.items():
+            result = expand("results/{result}/results_{A}_vs_{B}.{type}.diff.pdf", result = ["deseq2", "edger", "limma"], A = conditions["A"], B = conditions["B"], type = ["tximport", "rsubread"])
+            results.extend(result)
+        return results
+
+    def plots_pvalue(self):
+        results = []
+        contrasts = self.config["contrasts"]
+        for contrast, conditions in contrasts.items():
+            result = expand("results/{result}/results_{A}_vs_{B}.{type}.pvalue.pdf", result = ["deseq2", "edger", "limma"], A = conditions["A"], B = conditions["B"], type = ["tximport", "rsubread"])
+            results.extend(result)
+        return results
+
+    def plots_volcano(self):
+        results = []
+        contrasts = self.config["contrasts"]
+        for contrast, conditions in contrasts.items():
+            result = expand("results/{result}/results_{A}_vs_{B}.{type}.volcano.pdf", result = ["deseq2", "edger", "limma"], A = conditions["A"], B = conditions["B"], type = ["tximport", "rsubread"])
+            results.extend(result)
+        return results
+
+    def plots_heatmap(self):
+        results = []
+        contrasts = self.config["contrasts"]
+        for contrast, conditions in contrasts.items():
+            result = expand("results/{result}/results_{A}_vs_{B}.{type}.heatmap.pdf", result = ["deseq2", "edger", "limma"], A = conditions["A"], B = conditions["B"], type = ["tximport", "rsubread"])
+            results.extend(result)
+        return results
+    
     def plots_output(self):
         return [
             self.plots_dist(),
             self.plots_prcomp(),
-            self.plots_cmdscale()
+            self.plots_cmdscale(),
+            self.plots_diff(),
+            self.plots_pvalue(),
+            self.plots_volcano(),
+            self.plots_heatmap()
         ]
 
     ## bioconductor-goseq
@@ -445,7 +481,7 @@ class Project:
 
     def multiqc(self):
         return [
-            "results/multiqc/multiqc_data",
+            "results/multiqc/multiqc_data.zip",
             "results/multiqc/multiqc_report.html"
         ]
 

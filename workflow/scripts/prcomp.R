@@ -41,13 +41,13 @@ main <- function(input, output, log) {
 
     library(ggplot2)
 
-    dat <- read.csv("config/sample_table.csv", stringsAsFactors = FALSE)
+    dat <- read.csv("config/samples.csv", stringsAsFactors = FALSE)
 
     mat <- read.csv(input$csv, row.names = 1)
 
     pca <- calculatePCA(mat, n = 500)
 
-    dat <- merge(dat, pca, by.x = "sample_name", by.y = "row.names")
+    dat <- merge(dat, pca, by.x = "sample", by.y = "row.names")
 
     var <- attr(pca, "percentVar")
 
@@ -63,18 +63,6 @@ main <- function(input, output, log) {
         )
 
     ggsave(output$pdf, plot = plt, width = 7, height = 7)
-
-    # Image function
-
-    library(magick)
-
-    pdf <- image_read_pdf(output$pdf)
-    
-    pdf <- image_trim(pdf)
-
-    pdf <- image_border(pdf, color = "#FFFFFF", geometry = "50x50")
-    
-    pdf <- image_write(pdf, path = output$pdf, format = "pdf")
 
 }
 

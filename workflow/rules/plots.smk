@@ -50,12 +50,12 @@ rule cmdscale:
 
 rule diff:
     input:
-        csv = "results/{result}/condition_{A}_vs_{B}.{quant}.csv"
+        csv = "results/{result}/results_{A}_vs_{B}.{quant}.csv"
     output:
-        pdf = "results/{result}/condition_{A}_vs_{B}.{quant}.diff.pdf"
+        pdf = "results/{result}/results_{A}_vs_{B}.{quant}.diff.pdf"
     log:
-        out = "results/{result}/condition_{A}_vs_{B}.{quant}.diff.out",
-        err = "results/{result}/condition_{A}_vs_{B}.{quant}.diff.err"
+        out = "results/{result}/results_{A}_vs_{B}.{quant}.diff.out",
+        err = "results/{result}/results_{A}_vs_{B}.{quant}.diff.err"
     message:
         "[Plotting] Sample difference"
     conda:
@@ -65,12 +65,12 @@ rule diff:
 
 rule pvalue:
     input:
-        csv = "results/{result}/condition_{A}_vs_{B}.{quant}.csv"
+        csv = "results/{result}/results_{A}_vs_{B}.{quant}.csv"
     output:
-        pdf = "results/{result}/condition_{A}_vs_{B}.{quant}.pvalue.pdf"
+        pdf = "results/{result}/results_{A}_vs_{B}.{quant}.pvalue.pdf"
     log:
-        out = "results/{result}/condition_{A}_vs_{B}.{quant}.pvalue.out",
-        err = "results/{result}/condition_{A}_vs_{B}.{quant}.pvalue.err"
+        out = "results/{result}/results_{A}_vs_{B}.{quant}.pvalue.out",
+        err = "results/{result}/results_{A}_vs_{B}.{quant}.pvalue.err"
     message:
         "[Plotting] Plot p-values of differentially expressed genes: {wildcards.A} vs {wildcards.B}"
     conda:
@@ -80,12 +80,12 @@ rule pvalue:
 
 rule volcano:
     input:
-        csv = "results/{result}/condition_{A}_vs_{B}.{quant}.csv"
+        csv = "results/{result}/results_{A}_vs_{B}.{quant}.csv"
     output:
-        pdf = "results/{result}/condition_{A}_vs_{B}.{quant}.volcano.pdf"
+        pdf = "results/{result}/results_{A}_vs_{B}.{quant}.volcano.pdf"
     log:
-        out = "results/{result}/condition_{A}_vs_{B}.{quant}.volcano.out",
-        err = "results/{result}/condition_{A}_vs_{B}.{quant}.volcano.err"
+        out = "results/{result}/results_{A}_vs_{B}.{quant}.volcano.out",
+        err = "results/{result}/results_{A}_vs_{B}.{quant}.volcano.err"
     message:
         "[Plotting] Plot volcano of differentially expressed genes: {wildcards.A} vs {wildcards.B}"
     conda:
@@ -95,12 +95,12 @@ rule volcano:
 
 rule heatmap:
     input:
-        csv = "results/{result}/condition_{A}_vs_{B}.{quant}.csv"
+        csv = "results/{result}/results_{A}_vs_{B}.{quant}.csv"
     output:
-        pdf = "results/{result}/condition_{A}_vs_{B}.{quant}.heatmap.pdf"
+        pdf = "results/{result}/results_{A}_vs_{B}.{quant}.heatmap.pdf"
     log:
-        out = "results/{result}/condition_{A}_vs_{B}.{quant}.heatmap.out",
-        err = "results/{result}/condition_{A}_vs_{B}.{quant}.heatmap.err"
+        out = "results/{result}/results_{A}_vs_{B}.{quant}.heatmap.out",
+        err = "results/{result}/results_{A}_vs_{B}.{quant}.heatmap.err"
     message:
         "[Plotting] Plot heatmap of differentially expressed genes: {wildcards.A} vs {wildcards.B}"
     conda:

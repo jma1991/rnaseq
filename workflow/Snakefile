@@ -25,6 +25,7 @@ include: "rules/goseq.smk"
 include: "rules/plots.smk"
 include: "rules/sambamba.smk"
 include: "rules/deeptools.smk"
+include: "rules/multiqc.smk"
 
 # Quality control
 include: "rules/rseqc.smk"
@@ -52,4 +53,6 @@ rule all:
         project.rseqc_output(),
         project.qualimap_output(),
         project.dupradar_output(),
-        project.deeptools_output()
+        project.deeptools_output(),
+        project.plots_output(),
+        project.multiqc()

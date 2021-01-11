@@ -5,14 +5,22 @@
 
 rule multiqc:
     input:
-        dir = ["results/cutadapt", "results/fastqc", "results/kallisto", "results/star", "results/deeptools", "results/qualimap", "results/rseqc"]
+        dir = [
+            "results/cutadapt",
+            "results/fastqc",
+            "results/kallisto",
+            "results/star",
+            "results/deeptools",
+            "results/qualimap",
+            "results/rseqc"
+        ]
     output:
         ext = multiext("results/multiqc/multiqc_", "report.html", "data.zip")
     log:
-        out = "results/multiqc/multiqc_report.out",
-        err = "results/multiqc/multiqc_report.err"
+        out = "results/multiqc/multiqc.out",
+        err = "results/multiqc/multiqc.err"
     params:
-        out = lambda wildcards, input: os.path.splitext(output[0])[0]
+        out = "results/multiqc"
     message:
         "[multiqc] Aggregate results into a single report"
     conda:
