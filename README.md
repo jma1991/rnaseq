@@ -1,18 +1,9 @@
 # rnaseq <img align="right" width="200" src="images/shield.png">
 
-
 A workflow for RNA-seq analysis in Snakemake.
-
 
 [![Snakemake][shield-snakemake]](https://snakemake.readthedocs.io)
 [![MIT license][shield-license]](https://choosealicense.com/licenses/mit)
-
-```sh
-git clone https://github.com/jma1991/rnaseq.git
-cd rnaseq
-emacs config/config.yaml
-snakemake -n --use-conda
-```
 
 Table of Contents
 -----------------
