@@ -92,10 +92,7 @@ If you're opening issues related to these, please mention the version that the i
 Thanks
 ------
 
-I would like to thank Johannes Köster for developing the Snakemake workflow engine, Istvan Albert for, and 
-
-
-
+I would like to thank Johannes Köster for developing the Snakemake workflow engine and Istvan Albert for writing the biostar handbook.
 
 License
 -------
