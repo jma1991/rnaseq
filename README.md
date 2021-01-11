@@ -23,6 +23,11 @@ Table of Contents
   * [Support and Migration](#support-and-migration)
   * [License](#license)
 
+Introduction
+------------
+
+The Ripple workflow is a bioinformatics analysis pipeline for RNA sequencing data. The workflow is built using [Snakemake - a scalabale bioinformatics workflow engine](https://doi.org/10.1093/bioinformatics/bts480)
+
 
 Requirements
 ------------
@@ -45,92 +50,22 @@ Clone workflow into working directory:
 git clone https://github.com/jma1991/rnaseq.git
 ```
 
-Configure workflow
-
 Execute workflow and deploy software dependencies via conda:
 
 ```sh
 snakemake --use-conda
 ```
 
-
-
-Then you can load the module into your code with a `require` call:
-
-```js
-var paddington = require('paddington');
-```
-
-The `paddington` object has the following methods.
-
-### `paddington.pad( string, length [, character = ' '] )`
-
-Pad a string, distributing the padding equally on the left and right.
-
-`string` is the string we want to pad (_String_).  
-`length` is the length we want to pad it to (_Number_).  
-`character` is an optional character to pad with (_String_, defaults to `" "`).  
-`return` is the padded string (_String_).
-
-```js
-// Example
-paddington.pad('foo', 5); // returns " foo "
-paddington.pad('foo', 5, '_'); // returns "_foo_"
-```
-
-### paddington.left( string, length [, character = ' '] )
-
-Pad a string on the left hand side. This method has the same signature as `paddington.pad`.
-
-```js
-// Example
-paddington.left('foo', 5); // returns " foo"
-paddington.left('foo', 5, '_'); // returns "__foo"
-```
-
-### paddington.right( string, length [, character = ' '] )
-
-Pad a string on the right hand side. This method has the same signature as `paddington.pad`.
-
-```js
-// Example
-paddington.right('foo', 5); // returns "foo  "
-paddington.right('foo', 5, '_'); // returns "foo__"
-```
-
-### Longer strings
-
-When a string is longer than the specified pad length, it will not be trimmed. In this case the string will be returned as-is:
-
-```js
-paddington.pad('foobar', 5); // returns "foobar"
-```
-
-### Error handling
-
-All of the methods documented above will throw a `TypeError` if an argument is not of the expected type.
-
-
-
-
-
-
-
 Configuration
 -------------
 
 Configure the workflow by editing the files in the `config` folder:
 
-- The `config.yaml`file
+- The `config.yaml` is the basic configuration file for the workflow. 
 
-- The `samples.csv` file
+- The `samples.csv` file contains sample metadata, with 1 row per sample.
 
 - The `units.csv` file
-
-
-
-
-
 
 Contributing
 ------------
@@ -163,6 +98,10 @@ If you're opening issues related to these, please mention the version that the i
 
 Thanks
 ------
+
+I would like to thank Johannes Köster for developing the Snakemake workflow engine, Istvan Albert for, and 
+
+
 
 
 License
