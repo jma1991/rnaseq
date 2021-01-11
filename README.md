@@ -17,10 +17,12 @@ snakemake -n --use-conda
 Table of Contents
 -----------------
 
+  * [Introduction](#introduction)
   * [Requirements](#requirements)
   * [Usage](#usage)
   * [Contributing](#contributing)
   * [Support and Migration](#support-and-migration)
+  * [Thanks](#thanks)
   * [License](#license)
 
 Introduction
