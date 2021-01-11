@@ -3,14 +3,14 @@
 # Email: jashmore@ed.ac.uk
 # License: MIT
 
-rule limma_dge:
+rule limma_object:
     input:
-        rds = "results/{result}/counts.rds"
+        rds = "results/{result}/object.rds"
     output:
-        rds = "results/limma/dge.{result}.rds"
+        rds = "results/limma/object.{result}.rds"
     log:
-        out = "results/limma/dge.{result}.out",
-        err = "results/limma/dge.{result}.err"
+        out = "results/limma/object.{result}.out",
+        err = "results/limma/object.{result}.err"
     message:
         "[limma] Create a DGEList object from {wildcards.result} output: {input.rds}"
     conda:
@@ -18,14 +18,14 @@ rule limma_dge:
     script:
         "../scripts/limma.R"
 
-rule limma_els:
+rule limma_voom:
     input:
-        rds = "results/limma/dge.{result}.rds"
+        rds = "results/limma/object.{result}.rds"
     output:
-        rds = "results/limma/els.{result}.rds"
+        rds = "results/limma/voom.{result}.rds"
     log:
-        out = "results/limma/els.{result}.out",
-        err = "results/limma/els.{result}.err"
+        out = "results/limma/voom.{result}.out",
+        err = "results/limma/voom.{result}.err"
     message:
         "[limma] Create a EList object from {wildcards.result} output: {input.rds}"
     conda:
@@ -35,7 +35,7 @@ rule limma_els:
 
 rule limma_counts:
     input:
-        rds = "results/limma/dge.{result}.rds"
+        rds = "results/limma/object.{result}.rds"
     output:
         csv = "results/limma/counts.{result}.csv"
     log:
@@ -50,7 +50,7 @@ rule limma_counts:
 
 rule limma_normcounts:
     input:
-        rds = "results/limma/els.{result}.rds"
+        rds = "results/limma/voom.{result}.rds"
     output:
         csv = "results/limma/normcounts.{result}.csv"
     log:
@@ -65,7 +65,7 @@ rule limma_normcounts:
 
 rule limma_logcounts:
     input:
-        rds = "results/limma/els.{result}.rds"
+        rds = "results/limma/voom.{result}.rds"
     output:
         csv = "results/limma/logcounts.{result}.csv"
     log:
@@ -80,13 +80,13 @@ rule limma_logcounts:
 
 rule limma_results:
     input:
-        rds = "results/limma/els.{result}.rds",
-        tsv = expand("results/gffread/{genome}/{genome}.tx2gene.tsv", genome = pep.sample_table["genome"].unique())
+        rds = "results/limma/voom.{result}.rds",
+        tsv = expand("results/gffread/{genome}/{genome}.tx2gene.tsv", genome = config["genome"])
     output:
-        csv = "results/limma/condition_{A}_vs_{B}.{result}.csv"
+        csv = "results/limma/results_{A}_vs_{B}.{result}.csv"
     log:
-        out = "results/limma/condition_{A}_vs_{B}.{result}.out",
-        err = "results/limma/condition_{A}_vs_{B}.{result}.err"
+        out = "results/limma/results_{A}_vs_{B}.{result}.out",
+        err = "results/limma/results_{A}_vs_{B}.{result}.err"
     message:
         "[limma] Extract a table of the top-ranked genes: {wildcards.A} vs {wildcards.B}"
     conda:

@@ -20,7 +20,9 @@ include: "rules/kallisto.smk"
 include: "rules/tximport.smk"
 include: "rules/deseq2.smk"
 include: "rules/edger.smk"
+include: "rules/limma.smk"
 include: "rules/goseq.smk"
+include: "rules/plots.smk"
 include: "rules/sambamba.smk"
 include: "rules/deeptools.smk"
 
@@ -44,6 +46,7 @@ rule all:
         project.tximport_output(),
         project.deseq2_output(),
         project.edger_output(),
+        project.limma_output(),
         project.star_output(),
         project.sambamba_output(),
         project.rseqc_output(),

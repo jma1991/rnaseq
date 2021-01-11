@@ -356,23 +356,54 @@ class Project:
     ## bioconductor-limma
 
     def limma_object(self):
-        return "results/limma/object.rds"
+        return expand("results/limma/object.{type}.rds", type = ["tximport", "rsubread"])
+
+    def limma_voom(self):
+        return expand("results/limma/voom.{type}.rds", type = ["tximport", "rsubread"])
 
     def limma_counts(self):
-        return "results/limma/counts.csv"
+        return expand("results/limma/counts.{type}.csv", type = ["tximport", "rsubread"])
 
     def limma_normcounts(self):
-        return "results/limma/normcounts.csv"
+        return expand("results/limma/normcounts.{type}.csv", type = ["tximport", "rsubread"])
 
     def limma_logcounts(self):
-        return "results/limma/logcounts.csv"
+        return expand("results/limma/logcounts.{type}.csv", type = ["tximport", "rsubread"])
+
+    def limma_results(self):
+        results = []
+        contrasts = self.config["contrasts"]
+        for contrast, conditions in contrasts.items():
+            result = expand("results/limma/results_{A}_vs_{B}.{type}.csv", A = conditions["A"], B = conditions["B"], type = ["tximport", "rsubread"])
+            results.extend(result)
+        return results
 
     def limma_output(self):
         return [
             self.limma_object(),
+            self.limma_voom(),
             self.limma_counts(),
             self.limma_normcounts(),
-            self.limma_logcounts()
+            self.limma_logcounts(),
+            self.limma_results()
+        ]
+
+    ## PLOTS
+
+    def plots_dist(self):
+        return expand("results/{result}/dist.{type}.pdf", result = ["deseq2", "edger", "limma"], type = ["tximport", "rsubread"])
+
+    def plots_prcomp(self):
+        return expand("results/{result}/prcomp.{type}.pdf", result = ["deseq2", "edger", "limma"], type = ["tximport", "rsubread"])
+
+    def plots_cmdscale(self):
+        return expand("results/{result}/cmdscale.{type}.pdf", result = ["deseq2", "edger", "limma"], type = ["tximport", "rsubread"])
+
+    def plots_output(self):
+        return [
+            self.plots_dist(),
+            self.plots_prcomp(),
+            self.plots_cmdscale()
         ]
 
     ## bioconductor-goseq

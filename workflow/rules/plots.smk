@@ -3,21 +3,6 @@
 # Email: jashmore@ed.ac.uk
 # License: MIT
 
-rule corr:
-    input:
-        csv = "results/{result}/logcounts.{quant}.csv"
-    output:
-        pdf = "results/{result}/corr.{quant}.pdf"
-    log:
-        out = "results/{result}/corr.{quant}.out",
-        err = "results/{result}/corr.{quant}.err"
-    message:
-        "[Plotting] Sample correlation"
-    conda:
-        "../envs/plots.yaml"
-    script:
-        "../scripts/corr.R"
-
 rule dist:
     input:
         csv = "results/{result}/logcounts.{quant}.csv"
