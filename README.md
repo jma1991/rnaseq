@@ -1,4 +1,4 @@
-# rnaseq <img align="right" width="200" src="images/roundel.png">
+# RNA-SEQ <img align="right" width="200" src="images/roundel.png">
 
 A workflow for RNA-seq analysis in Snakemake.
 
