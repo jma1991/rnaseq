@@ -1,4 +1,4 @@
-sample,unit,read1,read2
+sample_name,unit,read1,read2
 ERR188044,ERR188044,/home/jashmore/work/github/rnaseq/data/samples/ERR188044_chrX_1.fastq.gz,/home/jashmore/work/github/rnaseq/data/samples/ERR188044_chrX_2.fastq.gz
 ERR188104,ERR188104,/home/jashmore/work/github/rnaseq/data/samples/ERR188104_chrX_1.fastq.gz,/home/jashmore/work/github/rnaseq/data/samples/ERR188104_chrX_2.fastq.gz
 ERR188234,ERR188234,/home/jashmore/work/github/rnaseq/data/samples/ERR188234_chrX_1.fastq.gz,/home/jashmore/work/github/rnaseq/data/samples/ERR188234_chrX_2.fastq.gz

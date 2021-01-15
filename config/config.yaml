@@ -3,17 +3,6 @@
 # Email: jashmore@ed.ac.uk
 # License: MIT
 
-samples: "config/samples.csv"
-units: "config/units.csv"
+sample_table: samples.csv
 
-genome: "hg19"
-contrasts:
-  condition_GBR_vs_YRI: {"A": "GBR", "B": "YRI"}
-
-txome:
-  source: "UCSC"
-  organism: "Homo sapiens"
-  release: "release"
-  genome: "hg19"
-  fasta: "fasta"
-  gtf: "fgtf"
+subsample_table: units.csv
