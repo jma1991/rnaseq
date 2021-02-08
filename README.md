@@ -32,10 +32,6 @@ This workflow requires the following software to run:
 Usage
 -----
 
-
-Ripple is easiest to use when installed with [npm][npm]:
-
-
 Clone workflow into working directory:
 
 ```sh
