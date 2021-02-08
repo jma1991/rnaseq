@@ -12,14 +12,13 @@ Table of Contents
   * [Requirements](#requirements)
   * [Usage](#usage)
   * [Contributing](#contributing)
-  * [Support and Migration](#support-and-migration)
   * [Thanks](#thanks)
   * [License](#license)
 
 Introduction
 ------------
 
-The Ripple workflow is a bioinformatics analysis pipeline for RNA sequencing data. The workflow is built using [Snakemake - a scalabale bioinformatics workflow engine](https://doi.org/10.1093/bioinformatics/bts480)
+This workflow is a bioinformatics analysis pipeline for RNA sequencing data. The workflow is built using [Snakemake - a scalabale bioinformatics workflow engine](https://doi.org/10.1093/bioinformatics/bts480)
 
 
 Requirements
@@ -27,8 +26,8 @@ Requirements
 
 This workflow requires the following software to run:
 
-  * [Snakemake][snakemake] 0.10+
-  * [Conda][code] (normally comes with Node.js)
+  * [Snakemake][snakemake]
+  * [Conda][code]
 
 Usage
 -----
@@ -71,23 +70,6 @@ snakemake --lint # run the linter
 ```
 
 You can find more detail in our [Contributing Guide](#). Participation in this open source project is subject to a [Code of Conduct](#).
-
-
-Support and Migration
----------------------
-
-Ripple major versions are normally supported for 6 months after their last minor release. This means that patch-level changes will be added and bugs will be fixed. The table below outlines the end-of-support dates for major versions, and the last minor release for that version.
-
-We also maintain a [migration guide](#) to help you migrate.
-
-| :grey_question: | Major Version | Last Minor Release | Support End Date |
-| :-------------- | :------------ | :----------------- | :--------------- |
-| :heart:         | 3             | N/A                | N/A              |
-| :hourglass:     | 2             | 2.1                | 2016-07-04       |
-| :no_entry_sign: | 1             | 1.4                | 2015-01-26       |
-
-If you're opening issues related to these, please mention the version that the issue relates to.
-
 
 Thanks
 ------
