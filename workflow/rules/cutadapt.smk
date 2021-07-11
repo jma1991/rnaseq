@@ -3,7 +3,7 @@
 # Email: jashmore@ed.ac.uk
 # License: MIT
 
-rule cutadapt_single:
+rule cutadapt_se:
     input:
         fq1 = "results/fastq/{sample}/{unit}.fastq.gz"
     output:
@@ -20,7 +20,7 @@ rule cutadapt_single:
     shell:
         "cutadapt -j {threads} -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA -m 33 -e 0.005 -O 7 -o {output.fq1} {input.fq1} 1> {log.out} 2> {log.err}"
 
-rule cutadapt_paired:
+rule cutadapt_pe:
     input:
         fq1 = "results/fastq/{sample}/{unit}_1.fastq.gz",
         fq2 = "results/fastq/{sample}/{unit}_2.fastq.gz"

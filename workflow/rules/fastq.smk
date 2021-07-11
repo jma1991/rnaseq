@@ -5,7 +5,7 @@
 
 rule fastq:
     input:
-        fqz = fastq_input
+        fqz = get_fastq_input
     output:
         fqz = "results/fastq/{sample}/{unit}{read,.*}.fastq.gz"
     message:

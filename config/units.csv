@@ -1,13 +1,1 @@
-sample_name,unit,read1,read2
-ERR188044,ERR188044,/home/jashmore/work/github/rnaseq/data/samples/ERR188044_chrX_1.fastq.gz,/home/jashmore/work/github/rnaseq/data/samples/ERR188044_chrX_2.fastq.gz
-ERR188104,ERR188104,/home/jashmore/work/github/rnaseq/data/samples/ERR188104_chrX_1.fastq.gz,/home/jashmore/work/github/rnaseq/data/samples/ERR188104_chrX_2.fastq.gz
-ERR188234,ERR188234,/home/jashmore/work/github/rnaseq/data/samples/ERR188234_chrX_1.fastq.gz,/home/jashmore/work/github/rnaseq/data/samples/ERR188234_chrX_2.fastq.gz
-ERR188245,ERR188245,/home/jashmore/work/github/rnaseq/data/samples/ERR188245_chrX_1.fastq.gz,/home/jashmore/work/github/rnaseq/data/samples/ERR188245_chrX_2.fastq.gz
-ERR188257,ERR188257,/home/jashmore/work/github/rnaseq/data/samples/ERR188257_chrX_1.fastq.gz,/home/jashmore/work/github/rnaseq/data/samples/ERR188257_chrX_2.fastq.gz
-ERR188273,ERR188273,/home/jashmore/work/github/rnaseq/data/samples/ERR188273_chrX_1.fastq.gz,/home/jashmore/work/github/rnaseq/data/samples/ERR188273_chrX_2.fastq.gz
-ERR188337,ERR188337,/home/jashmore/work/github/rnaseq/data/samples/ERR188337_chrX_1.fastq.gz,/home/jashmore/work/github/rnaseq/data/samples/ERR188337_chrX_2.fastq.gz
-ERR188383,ERR188383,/home/jashmore/work/github/rnaseq/data/samples/ERR188383_chrX_1.fastq.gz,/home/jashmore/work/github/rnaseq/data/samples/ERR188383_chrX_2.fastq.gz
-ERR188401,ERR188401,/home/jashmore/work/github/rnaseq/data/samples/ERR188401_chrX_1.fastq.gz,/home/jashmore/work/github/rnaseq/data/samples/ERR188401_chrX_2.fastq.gz
-ERR188428,ERR188428,/home/jashmore/work/github/rnaseq/data/samples/ERR188428_chrX_1.fastq.gz,/home/jashmore/work/github/rnaseq/data/samples/ERR188428_chrX_2.fastq.gz
-ERR188454,ERR188454,/home/jashmore/work/github/rnaseq/data/samples/ERR188454_chrX_1.fastq.gz,/home/jashmore/work/github/rnaseq/data/samples/ERR188454_chrX_2.fastq.gz
-ERR204916,ERR204916,/home/jashmore/work/github/rnaseq/data/samples/ERR204916_chrX_1.fastq.gz,/home/jashmore/work/github/rnaseq/data/samples/ERR204916_chrX_2.fastq.gz
+sample,unit,read1,read2,strand

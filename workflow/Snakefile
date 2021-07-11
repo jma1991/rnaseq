@@ -3,56 +3,40 @@
 # Email: jashmore@ed.ac.uk
 # License: MIT
 
+import pandas
+import snakemake
+
 configfile: "config/config.yaml"
-            
-include: "rules/project.smk"
-project = Project(config)
+snakemake.utils.validate(config, "schemas/config.yaml")
 
-include: "rules/common.smk"
-include: "rules/fastq.smk"
-include: "rules/fastqc.smk"
-include: "rules/cutadapt.smk"
-include: "rules/genomepy.smk"
-include: "rules/gffread.smk"
-include: "rules/star.smk"
-include: "rules/rsubread.smk"
-include: "rules/kallisto.smk"
-include: "rules/tximport.smk"
-include: "rules/deseq2.smk"
-include: "rules/edger.smk"
-include: "rules/limma.smk"
-include: "rules/goseq.smk"
-include: "rules/plots.smk"
-include: "rules/sambamba.smk"
-include: "rules/deeptools.smk"
-include: "rules/multiqc.smk"
+samples = pandas.read_csv(config["samples"])
+snakemake.utils.validate(samples, "schemas/samples.yaml")
 
-# Quality control
-include: "rules/rseqc.smk"
-include: "rules/qualimap.smk"
-include: "rules/dupradar.smk"
-include: "rules/preseq.smk"
+units = pandas.read_csv(config["units"])
+snakemake.utils.validate(units, "schemas/units.yaml")
 
-wildcard_constraints:
-    sample = "|".join(project.samples["sample"]),
-    unit = "|".join(project.units["unit"])
+# include: "rules/common.smk"
+# include: "rules/fastq.smk"
+# include: "rules/fastqc.smk"
+# include: "rules/cutadapt.smk"
+# include: "rules/genomepy.smk"
+# include: "rules/gffread.smk"
+# include: "rules/star.smk"
+# include: "rules/rsubread.smk"
+# include: "rules/kallisto.smk"
+# include: "rules/tximport.smk"
+# include: "rules/deseq2.smk"
+# include: "rules/edger.smk"
+# include: "rules/limma.smk"
+# include: "rules/goseq.smk"
+# include: "rules/plots.smk"
+# include: "rules/sambamba.smk"
+# include: "rules/deeptools.smk"
+# include: "rules/multiqc.smk"
+# include: "rules/rseqc.smk"
+# include: "rules/qualimap.smk"
+# include: "rules/dupradar.smk"
+# include: "rules/preseq.smk"
 
-rule all:
-    input:
-        project.fastq_output(),
-        project.fastqc_output(),
-        project.cutadapt_output(),
-        project.genomepy_output(),
-        project.gffread_output(),
-        project.tximport_output(),
-        project.deseq2_output(),
-        project.edger_output(),
-        project.limma_output(),
-        project.star_output(),
-        project.sambamba_output(),
-        project.rseqc_output(),
-        project.qualimap_output(),
-        project.dupradar_output(),
-        project.deeptools_output(),
-        project.plots_output(),
-        project.multiqc()
+# rule all:
+#     input:

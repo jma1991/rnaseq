@@ -1,8 +1,11 @@
-# Author: James Ashmore
-# Copyright: Copyright 2020, James Ashmore
-# Email: jashmore@ed.ac.uk
-# License: MIT
+samples:
 
-sample_table: samples.csv
+units:
 
-subsample_table: units.csv
+source:
+
+organism:
+
+release:
+
+genome:

@@ -9,7 +9,19 @@ properties:
     type: string
   units:
     type: string
+  source:
+    type: string
+  organism:
+    type: string
+  release:
+    type: integer
+  genome:
+    type: string
 
 required:
   - samples
   - units
+  - source
+  - organism
+  - release
+  - genome
