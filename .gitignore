@@ -5,8 +5,6 @@
 !.github
 !.gitignore
 !.snakemake-workflow-catalog.yml
-!.test
-!.test/**
 !CODE_OF_CONDUCT.md
 !CONTRIBUTING.md
 !LICENSE.md
@@ -16,4 +14,8 @@
 !images
 !images/*
 !workflow
-!workflow/**
+!workflow/*
+!workflow/envs/*
+!workflow/rules/*
+!workflow/schemas/*
+!workflow/scripts/*
